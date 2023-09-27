@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+order Details
+{% endblock %}
+
+{% block css %}
+<link href="{% static 'customers/css/cart.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block navbar %}
+{% include 'customers/navbar.html' %}
+{% endblock %}
+{% block body %}
+<!-- orders -->
+<form>
+{% csrf_token %}
+<div class="container text-dark bg-white mt-5 pb-2 mb-3">
+    <div class="row p-4">
+        <div class="col-md-6">
+            <h2 class="text-dark">Order Details</h2>
+        </div>
+        <div class="col-md-6 ">
+            <button class="btn btn-custom pull-right" type="button">Orders <span
+                    id="total-item-count">{{ orders|length }}</span></button>
+        </div>
+    </div>
+    <hr class="border border-dark border-1"/>
+    <div class="row text-center text-dark md-hidden">
+        <div class="col-md-1 text-start">
+            <h5>Order</h5>
+        </div>
+        <div class="col-md-3 text-start">
+            <h5>Date</h5>
+        </div>
+        <div class="col-md-1 p-2 p-md-0">
+            <h5>Status</h5>
+        </div>
+        <div class="col-md-2 p-2 p-md-0">
+            <h5>Restaurant</h5>
+        </div>
+        <div class="col-md-1 p-1 p-md-0">
+            <h5>Total</h5>
+        </div>
+        <div class="col-md-2 p-1 p-md-0">
+            <h5>Agent</h5>
+        </div>
+        <div class="col-md-2 p-1 p-md-0">
+            <h5>Download Invoice</h5>
+        </div>
+    </div>
+    <hr>
+    {% for order in orders %}
+        <div class="row mb-3" id="order-{{ order.id }}">
+            <div class="col-md-1 mt-2"><a href="{% url 'view-detail-order' order.id %}">{{ forloop.counter }}</a></div>
+            <div class="col-md-3 mt-2"><p>{{ order.order_date }}</p></div>
+            <div class="col-md-1 text-center"><p>{{ order.status }}</p></div>
+            <div class="col-md-2 text-center">{{order.restaurant.name}}</div>
+            <div class="col-md-1 text-center"><p id="total-{{ item.item.id }}">&#8377; {{ order.total }}</p></div>
+            <div class="col-md-2 text-center"><p>{{ order.accepted_order.agent }}</p></div>
+            <div class="col-md-2 text-center"><a href="{% url 'download-invoice' order.id %}" class="btn btn-sm btn-primary">Download</a></div>
+        </div>
+
+        <div class="container bg-light py-3" style="border-radius: 10px">
+            <div class="row" style="display: flex; ">
+                <div class="col-md-3 me-auto text-center">
+                    Product Image
+                </div>
+                <div class="col-md-6 d-flex">
+                    Description
+                </div>
+                <div class="col-md-2 text-center">Delivery Charges : {{ order.delivery_charges }}</div>
+
+            </div>
+            <hr class="text-dark">
+            {% for item in order.orderitems_set.all %}
+            <div class="row" style="display: flex; ">
+                <div class="col-md-3 text-center">
+                    <img src="{{item.item.image.url}}" style="width: 50%;">
+                </div>
+                <div class="col-md-4 mt-2">
+                    <table class="table">
+                        <tr>
+                            <td class="border border-dark border-top-0 border-bottom-0 border-start-0 border-end-primary fw-bold">Name</td>
+                            <td class="border border-dark border-top-0 border-end-0">{{item.item.name}}</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-dark border-start-0 fw-bold">Price * Quantity</td>
+                            {% if item.item.price == item.item.calculate_discount %}
+                            <td class="border border-dark border-end-0">{{item.item.price}} * {{item.quantity}}</td>
+                            {% else %}
+                                <td class="border border-dark border-end-0"><s>{{item.item.price}}</s> {{ item.item.calculate_discount }} * {{item.quantity}}</td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <td class="border border-dark border-top-0 border-bottom-0 border-start-0 fw-bold">Total</td>
+                            <td>{{item.get_items_total}}</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+            <br>
+            {% endfor %}
+        </div>
+        <br>
+    {% endfor %}
+</div>
+{% endblock %}
+</form>

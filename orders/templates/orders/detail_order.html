@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    order Details
+{% endblock %}
+
+{% block css %}
+    <link href="{% static 'customers/css/cart.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block navbar %}
+    {% include 'customers/navbar.html' %}
+{% endblock %}
+{% block body %}
+    <div class="container text-dark bg-white mt-5 pb-2 mb-3">
+        <div class="row p-4">
+            <div class="col-md-6">
+                <h2 class="text-dark">Order Details</h2>
+            </div>
+
+        </div>
+        <hr class="border border-dark border-1"/>
+        <div class="row p-3 text-center text-dark md-hidden">
+            <div class="col-md-1 text-start">
+                <h5>Order</h5>
+            </div>
+            <div class="col-md-2 text-start">
+                <h5>User</h5>
+            </div>
+            <div class="col-md-2 text-start">
+                <h5>Date</h5>
+            </div>
+            <div class="col-md-1 p-2 p-md-0">
+                <h5>Status</h5>
+            </div>
+            <div class="col-md-2 p-2 p-md-0">
+                <h5>Restaurant</h5>
+            </div>
+            <div class="col-md-1 p-1 p-md-0">
+                <h5>Total</h5>
+            </div>
+            <div class="col-md-2 p-1 p-md-0">
+                <h5>Agent</h5>
+            </div>
+        </div>
+        <hr>
+        <div class="row p-3" id="order-{{ order.id }}">
+            <div class="col-md-1 p-1 p-md-0 mt-2"><p>{{ order.id }}</p></div>
+            <div class="col-md-2 p-1 p-md-0 mt-2"><p>{{ order.user }}</p></div>
+            <div class="col-md-2 p-1 p-md-0 mt-2"><p>{{ order.order_date }}</p></div>
+            <div class="col-md-1 p-2 p-md-0 text-center"><p>{{ order.status }}</p></div>
+            <div class="col-md-2 p-2 p-md-0 text-center">{{ order.restaurant.name }}</div>
+            <div class="col-md-1 p-1 p-md-0 text-center"><p id="total-{{ item.item.id }}">&#8377; {{ order.total }}</p>
+            </div>
+            <div class="col-md-2 p-1 p-md-0 text-center">
+                <p>
+                    {% if order.accepted_order %}{{ order.accepted_order.agent }}<br>
+                        <button onclick="copy_text()">
+                            {{ order.accepted_order.agent.mobile_number }}
+                        </button>
+                    {% else %}
+                        -
+                    {% endif %}
+                </p>
+            </div>
+            <br><br>
+            <table style="border: #0d1028;border-style: groove;margin-top:50px; margin-bottom: 60px;">
+                <tr style="text-align: center">
+                    <th>Sr. No.</th>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Discounted Price</th>
+                    <th>Total</th>
+                </tr>
+                <hr>
+
+                {% for item in order.orderitems_set.all %}
+                    <tr style="text-align: center">
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.item.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.item_price }}</td>
+                        {% if item.item_discount %}
+                            <td>{{ item.get_discounted_price }}</td>
+                        {% else %}
+                            <td>-</td>
+                        {% endif %}
+                        <td>{{ item.get_items_total }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <p>Delivery Charges {{ order.delivery_charges }}</p>
+
+        {% if order.status == "delivered" and order.paid %}
+            <div class="row">
+                <div class="col-4">
+                    {% if not order.ratingsandreviews.ratings %}
+                        <a href="{% url 'restaurant-rating' order.id %}">Review Review Restaurant</a>
+                    {% else %}
+                        Your Ratings for Restaurant: {{ order.ratingsandreviews.ratings }}
+                    {% endif %}
+                    <br>
+                    {% if not order.accepted_order.rating %}
+                        <a href="{% url 'delivery-agent-rating' order.id %}">Review Delivery Agent</a>
+                    {% else %}
+                        Your Ratings for Delivery Agent: {{ order.accepted_order.rating }}
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    <script>
+        function copy_text() {
+            // Copy the text inside the text field
+            navigator.clipboard.writeText("{{ order.accepted_order.agent.mobile_number }}");
+
+            // Alert the copied text
+            alert("Copied the mobile number: {{ order.accepted_order.agent.mobile_number }}");
+        }
+    </script>
+{% endblock %}
