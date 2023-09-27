@@ -1,0 +1,62 @@
+[
+  {
+    "model": "accounts.address",
+    "pk": 3,
+    "fields": {
+      "address_title": "a",
+      "address_line1": "a",
+      "address_line2": "a",
+      "street": "a",
+      "landmark": "a",
+      "pincode": 123456,
+      "city": "a",
+      "state": "a",
+      "country": "a"
+    }
+  },
+  {
+    "model": "accounts.address",
+    "pk": 2,
+    "fields": {
+      "address_title": "b",
+      "address_line1": "b",
+      "address_line2": "b",
+      "street": "b",
+      "landmark": "b",
+      "pincode": 123456,
+      "city": "b",
+      "state": "b",
+      "country": "b"
+    }
+  },
+  {
+    "model": "accounts.address",
+    "pk": 3,
+    "fields": {
+      "address_title": "c",
+      "address_line1": "c",
+      "address_line2": "c",
+      "street": "c",
+      "landmark": "c",
+      "pincode": 123456,
+      "city": "c",
+      "state": "c",
+      "country": "c"
+    }
+  },
+  {
+    "model": "accounts.address",
+    "pk": 4,
+    "fields": {
+      "address_title": "d",
+      "address_line1": "d",
+      "address_line2": "d",
+      "street": "d",
+      "landmark": "dd",
+      "pincode": 123456,
+      "city": "d",
+      "state": "d",
+      "country": "dd"
+    }
+  }
+]

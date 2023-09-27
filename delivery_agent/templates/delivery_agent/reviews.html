@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'delivery_agent/css/reviews.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block title %}
+    Reviews{% endblock %}
+{% block navbar %}
+    {% include 'delivery_agent/navbar.html' %}
+{% endblock %}
+
+{% block body %}
+
+
+    <div class="testimonial-box-container">
+
+        {% for review in reviews %}
+            <div class="testimonial-box">
+                <div class="box-top">
+                    <div class="profile">
+                        <div class="profile-img">
+                            {% if review.order.user.profile_pic %}
+                                <img alt="{{ review.order.user }}" src="{{ review.order.user.profile_pic.url }}"
+                                     class="avatar avatar-sm rounded-circle me-2">
+                            {% else %}
+                                <img alt="" src="{% static 'accounts/images/default_profile_image.jpg' %}"
+                                     class="avatar avatar-sm rounded-circle me-2">
+                            {% endif %}
+                        </div>
+                        <div class="name-user">
+                            <strong>{{ review.order.user.username }}<br>
+                            </strong>
+                            <span>{{ review.order.user }}</span>
+                        </div>
+                    </div>
+
+                    <div class="reviews">
+                        <p>{{ review.rating.3 }}</p>
+                        {% for i in review.rating.0 %}
+                            <i class="star fa fa-star" data-value="{{ review.rating }}"></i>
+                        {% endfor %}
+                        {% for i in review.rating.1 %}
+                            <i class="star fa fa-star-half-o" data-value="{{ review.rating }}"></i>
+                        {% endfor %}
+                        {% for i in review.rating.2 %}
+                            <i class="star fa fa-star-o"></i>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="client-comment ">
+                    <p class="text-break">{{ review.review }}</p>
+                </div>
+                {% include 'pagination.html' %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+{% block js %}
+    <script src="{% static 'admins/js/pagination.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Delivery Agent Panel
+{% endblock %}
+
+{% block css %}
+    <link href="{% static 'delivery_agent/css/main.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'delivery_agent/css/not_found.css' %}" rel="stylesheet" type="text/css">
+
+
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
+          rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+{% endblock %}
+
+
+{% block navbar %}
+    {% include 'delivery_agent/navbar.html' %}
+{% endblock %}
+
+{% block body %}
+    <section>
+        <div class="container py-2">
+            {% if not orders %}
+                {% include 'delivery_agent/not_found.html' %}
+            {% else %}
+                <div class="alert alert-success alert-dismissible fade show" id="myElem" style="display:none">
+                    <strong>Success!</strong> You have accepted order delivery Successfully.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                <div class="alert alert-danger alert-dismissible fade show" id="myElem2" style="display:none">
+                    <strong>Failed!</strong> You Can not Accept more than one delivery!!.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                <div class="card shadow border-0 mb-7">
+                    <div class="card-header">
+                        <h5 class="mb-0">Available Deliveries</h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-nowrap ">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">User</th>
+                                <th scope="col">Time</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col" style="text-align: center">Actions</th>
+                                <th scope="col">Details</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody id="orders_received">
+                            {% for order in orders %}
+                                <tr id="row-{{ order.id }}">
+                                    <td>{{ order.id }}</td>
+                                    <td>
+                                        {% if order.user.profile_pic %}
+                                            <img alt="{{ order.user }}" src="{{ order.user.profile_pic.url }}"
+                                                 class="avatar avatar-sm rounded-circle me-2">
+                                        {% else %}
+                                            <img alt="" src="{% static 'accounts/images/default_profile_image.jpg' %}"
+                                                 class="avatar avatar-sm rounded-circle me-2">
+                                        {% endif %}
+                                        <p class="pt-2">{{ order.user.username }}</p>
+                                    </td>
+                                    <td>{{ order.order_date }}</td>
+                                    <td>{{ order.total }}</td>
+                                    <td style="text-align: center">
+                                        <button class="accept" data-order="{{ order.id }}">ACCEPT<span
+                                                class="fa fa-check"></span></button>
+                                    </td>
+                                    <td><a href="{% url 'detail_delivery' order.id %}" class="btn btn-sm btn-neutral">View</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {% include 'pagination.html' %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
+{% block js %}
+    <script src="{% static 'delivery_agent/js/new_orders_channels.js' %}"></script>
+    <script src="{% static 'delivery_agent/js/acccept_delivery.js' %}"></script>
+    <script src="{% static 'admins/js/pagination.js' %}"></script>
+
+{% endblock %}

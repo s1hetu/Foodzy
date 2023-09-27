@@ -1,0 +1,14 @@
+[
+  {
+    "model": "delivery_agent.Document",
+    "pk": 1,
+    "fields": {
+      "agent": 14,
+      "license_number": "4fs5sds",
+      "license_document": "delivery_agent_licenses/Screenshot_from_2022-09-28_15-44-42.jpg",
+      "pancard_number": "4545051d",
+      "pancard_document": "delivery_agent_licenses/Screenshot_from_2022-09-28_15-44-42.jpg",
+      "is_verified": false
+    }
+  }
+]

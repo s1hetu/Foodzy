@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Delivery Agent Panel
+{% endblock %}
+
+{% block css %}
+    <link href="{% static 'delivery_agent/css/main.css' %}" rel="stylesheet" type="text/css">
+
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
+          rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+    <style>
+        @keyframes loading-1 {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate({{ rating_first_half }}deg);
+                transform: rotate({{ rating_first_half }}deg);
+            }
+        }
+
+        @keyframes loading-2 {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate({{ rating_second_half }}deg);
+                transform: rotate({{ rating_second_half }}deg);
+            }
+        }
+
+    </style>
+
+{% endblock %}
+
+
+{% block navbar %}
+    {% include 'delivery_agent/navbar.html' %}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+            <main class="bg-surface-secondary">
+                <div class="container py-3">
+                    <div class="row pt-3">
+                        <div class="col-3">
+                            <input type="checkbox" id="toggle-two"
+                                   value={{ delivery_agent_status }} data-toggle="toggle"
+                                   data-on="Available" data-off="Unavailable" data-onstyle="success"
+                                   data-offstyle="secondary"
+                                   data-size="large" data-width="180" data-height="60">
+                        </div>
+                        <div class="col-8 delivery-alert" id="myStatus">
+                            {% if active_delivery %}
+                                <div class="alert alert-info alert-dismissible fade show">
+                                    You have Some orders to deliver.
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                    <!-- Card stats -->
+                    <div class="row py-6 g-6">
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <a href="{% url 'agent_review' request.user.id %}">
+                                        <div class="row">
+                                            <div class="progress blue">
+                                        <span class="progress-left">
+                                          <span class="progress-bar"></span>
+                                        </span>
+                                                <span class="progress-right">
+                                            <span class="progress-bar"></span>
+                                            </span>
+                                                <div class="progress-value"
+                                                     style="line-height: 29px; top: 30%;">
+                                                    Ratings <br> {{ ratings }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <span class="h6 font-semibold text-muted text-sm d-block mb-2">COD Collection</span>
+                                            <span class="h3 font-bold mb-0">&#8377 {{ cod_collection }}</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
+                                                <i class="bi bi-credit-card"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <a class="h6 font-semibold text-muted text-sm d-block mb-2"
+                                               href="{% url "all_time_entries" %}">Today's Active Time</a>
+                                            <span class="h3 font-bold mb-0">{{ activated_today }}</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-info text-white text-lg rounded-circle">
+                                                <i class="bi bi-clock-history"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <span class="h6 font-semibold text-muted text-sm d-block mb-2">Today's Deliveries</span>
+                                            <span class="h3 font-bold mb-0">{{ delivered_today }}</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-warning text-white text-lg rounded-circle">
+                                                <i class="bi bi-minecart-loaded"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row py-4">
+                        <div class="col-xl-6 col-sm-6 col-12">
+                            <div class="card bg-info bg-opacity-25">
+                                <div class="widget-content-wrapper p-10 pt-10 pb-0" style="display: flex;">
+                                    <div class="widget-content-left me-auto">
+                                        <div class="widget-heading">
+                                            <a href="{% url 'all-accepted-delivery' %}">
+                                                Total Deliveries
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="widget-content-right d-flex">
+                                        <div class="widget-numbers"><span>{{ number_of_orders }}</span></div>
+                                    </div>
+                                </div>
+                                <div class="widget-content-wrapper p-10 pt-0 pb-10 " style="display: flex; ">
+                                    <div class="widget-content-left me-auto">
+                                        <div class="widget-subheading">Orders Delivered</div>
+                                    </div>
+                                    <div class="widget-content-right d-flex">
+                                        <div class="widget-numbers"><span>{{ orders_delivered }}</span></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-sm-6 col-12">
+                            <div class="card bg-warning bg-opacity-25">
+                                <div class="widget-content-wrapper p-10 pt-10 pb-0" style="display: flex;">
+                                    <div class="widget-content-left me-auto">
+                                        <div class="widget-heading">
+                                                Total Order Price
+                                        </div>
+                                    </div>
+                                    <div class="widget-content-right d-flex">
+                                        <div class="widget-numbers"><span>&#8377 {{ total_order_price }}</span></div>
+                                    </div>
+                                </div>
+                                <div class="widget-content-wrapper p-10 pt-0 pb-10 " style="display: flex; ">
+                                    <div class="widget-content-left me-auto">
+                                        <div class="widget-subheading">My Profit</div>
+                                    </div>
+                                    <div class="widget-content-right d-flex">
+                                        <div class="widget-numbers"><span>&#8377 {{ my_profit }}</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        let active_delivery = "{{ active_delivery }}"
+    </script>
+    <script src="{% static 'delivery_agent/js/agent_status.js' %}"></script>
+{% endblock %}

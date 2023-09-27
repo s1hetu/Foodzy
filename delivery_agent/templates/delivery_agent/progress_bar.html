@@ -1,0 +1,38 @@
+<form id="form">
+    <ul id="progressbar">
+        <li class="active" id="step1">
+            <strong>Ready to Pick</strong>
+        </li>
+        <li id="step2"><strong>Picked</strong></li>
+        <li id="step3"><strong>Out for Delivery</strong></li>
+        <li id="step4"><strong>Delivered</strong></li>
+    </ul>
+{#    <div class="progress">#}
+{#        <div class="progress-bar"></div>#}
+{#    </div>#}
+    <br>
+    <fieldset>
+        <h2>Ready to Pick</h2>
+        <input type="button" name="next-step"
+               class="next-step" value="Next Step"/>
+    </fieldset>
+    <fieldset>
+        <h2>Order Picked</h2>
+        <input type="button" name="next-step"
+               class="next-step" value="Next Step"/>
+    </fieldset>
+    <fieldset>
+        <h2>Out for Delivery</h2>
+
+        <input type="button" name="next-step"
+               class="next-step" value="Final Step"/>
+        <div class="resend-otp" >Resend OTP</div>
+    </fieldset>
+    <fieldset>
+        <div class="finish">
+            <h2 class="text text-center">
+                <strong>Delivered</strong>
+            </h2>
+        </div>
+    </fieldset>
+</form>

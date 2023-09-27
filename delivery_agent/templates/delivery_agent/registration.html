@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block css %}
+{% load static %}
+<link href="{% static 'accounts/css/common.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'delivery_agent/css/agent_registration.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block title %}
+Delivery Agent Registration{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 column text-center heading">
+            <h2>DELIVERY AGENT REGISTRATION</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2 column form-column">
+            <form enctype="multipart/form-data" method="post">
+                {% load crispy_forms_tags %}
+                {% csrf_token %}
+                <div class="form-box">
+                    <fieldset>
+                        <legend>User Details</legend>
+                        {{ user|crispy }}
+                    </fieldset>
+                </div>
+                <div class="form-box">
+                    <fieldset>
+                        <legend>Address Details</legend>
+                        {{ address|crispy }}
+                    </fieldset>
+                </div>
+                <div class="form-box">
+                    <fieldset>
+                        <legend>Delivery Agent Documents</legend>
+                        {{ documents|crispy }}
+                    </fieldset>
+                </div>
+
+                <button class="submit-btn btn btn-outline-success my-4" type="submit">Submit</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
