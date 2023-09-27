@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block css %}
+{% load static %}
+<link href="{% static 'accounts/css/common.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body %}
+{% block navigation %}
+{% endblock %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 column text-center heading">
+            <h2>ACCOUNT ACTIVATION STATUS</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2 column">
+            {% if is_link_valid %}
+            <p class="text-success"></p>
+            <div class="text-center">
+                <h4 class="text-success">
+                    Successfully account activated.
+                </h4>
+                <div class="my-5">
+                    <a class="btn btn-outline-secondary btn-primary" href="{% url 'login' %}">Login</a>
+                    <a class="btn btn-outline-secondary btn-primary" href="{% url 'register' %}">Register</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="text-danger text-center">
+                <h4 class="text-danger">
+                    The Activation link is Invalid!
+                </h4>
+                <a class="btn btn-outline-secondary btn-primary my-5" href="{% url 'home' %}"> Go to Website <i
+                        aria-hidden="true" class="fa fa-undo"></i> </a>
+            </div>
+            {% endif %}
+            <div class="instructions">
+                {% if not is_link_valid and not user.is_authenticated %}
+                <p>You can apply for resend code for activation from
+                    <a class="badge bg-info" href="{% url 'resend-activation-code-api' %}">here</a>
+                </p>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    if (window.location.hash && window.location.hash === '#_=_') {
+        window.location.hash = '';
+    }
+</script>
+{% endblock %}

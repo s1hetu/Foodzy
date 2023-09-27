@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    {% load static %}
+    <style>
+        #map {
+            width: 100%;
+            height: 300px;
+        }
+    </style>
+    <!-- OpenLayers CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.1.0/ol.css">
+
+    <link href="{% static 'accounts/css/common.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 column text-center heading">
+                <h2>Address</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 offset-md-2 column px-4">
+                <form method="post">
+                    {% load crispy_forms_tags %}
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="row">
+                        <div class="col-md-12">
+                            SELECT YOU CURRENT LOCATION ON MAP
+                        </div>
+                        <div class="col-md-12" style="min-height: 300px">
+                            <div id="map" style="min-height: 300px"></div>
+                        </div>
+                        <p class="invalid-feedback text-danger">
+                        <div class="visually-hidden" style="display: none">
+                            {{ address_form.lat.errors }}
+                        </div>
+                        {% for map_error in address_form.lat.errors %}
+                            <strong class="text-danger">{{ map_error }}</strong>
+                        {% endfor %}
+                        </p>
+                    </div>
+                    <button class="submit-btn btn btn-outline-success" type="submit">Submit</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        if (window.location.hash && window.location.hash === '#_=_') {
+            window.location.hash = '';
+        }
+        let icon_url = "{% static 'customers/marker.png' %}";
+        let current_location_icon = "{% static 'customers/current_location.png' %}";
+    </script>
+
+    <script>
+        let previous_location = [parseFloat($("#id_long").val()), parseFloat($("#id_lat").val())]
+    </script>
+
+    <!-- OpenLayers JS-->
+    <script src="https://cdn.jsdelivr.net/npm/ol@v7.1.0/dist/ol.js"></script>
+    <script src="{% static 'accounts/js/address_edit_map.js' %}"></script>
+
+{% endblock %}'

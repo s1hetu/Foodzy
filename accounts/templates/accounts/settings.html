@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+{% block css %}
+{% load static %}
+<link href="{% static 'accounts/css/common.css' %}" rel="stylesheet" type="text/css">
+<style>
+
+
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 column text-center heading">
+            <h2>MANAGE SOCIAL AUTHENTICATION</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 offset-md-2 column">
+            {% if social_auths_count == 0 %}
+            <div class="text-center my-3" style="font-size: 25px">
+                <i class="fa fa-exclamation-circle fa-fw"></i> No social authentication is linked
+            </div>
+            <div class="wrapper text-center">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div>
+                                <a class="social btn fb" href="{% url 'social:begin' 'facebook' %}">
+                                    <i class="fa fa-facebook fa-fw"></i> Link with Facebook
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <a class="social btn github" href="{% url 'social:begin' 'github' %}">
+                                    <i class="fa fa-github fa-fw"></i> Link with GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div>
+                                <a class="social btn google" href="{% url 'social:begin' 'google-oauth2' %}">
+                                    <i class="fa fa-google fa-fw"></i> Link with Google
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <a class="social btn twitter" href="{% url 'social:begin' 'twitter' %}">
+                                    <i class="fa fa-twitter fa-fw"></i> Link with Twitter
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            {% else %}
+
+            <div class="wrapper text-center">
+                <div class="container">
+                    {% if facebook_login %}
+                    <div class="col">
+                        <div>
+                            {% if can_disconnect %}
+                            <form action="{% url 'social:disconnect' 'facebook' %}?next={{ request.path }}"
+                                  method="post">
+                                {% csrf_token %}
+                                <button class="social btn fb" type="submit">
+                                    <i class="fa fa-facebook fa-fw"></i> Disconnect from Facebook
+                                </button>
+                            </form>
+                            {% else %}
+                            <a class="social btn fb disabled">
+                                <i class="fa fa-facebook fa-fw"></i> Disconnect from Facebook <br>
+                                <i class="fa fa-exclamation-circle fa-fw"></i> Can't disconnect, need to set password first
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if github_login %}
+                    <div class="col">
+                        <div>
+                            {% if can_disconnect %}
+                            <form action="{% url 'social:disconnect' 'github' %}?next={{ request.path }}"
+                                  method="post">
+                                {% csrf_token %}
+                                <button class="social btn github" type="submit">
+                                    <i class="fa fa-github fa-fw"></i> Disconnect from GitHub
+                                </button>
+                            </form>
+                            {% else %}
+                            <a class="social btn github disabled">
+                                <i class="fa fa-github fa-fw"></i> Disconnect from GitHub<br>
+                                <i class="fa fa-exclamation-circle fa-fw"></i> Can't disconnect, need to set password first
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if twitter_login %}
+                    <div class="col">
+                        <div>
+                            {% if can_disconnect %}
+                            <form action="{% url 'social:disconnect' 'twitter' %}?next={{ request.path }}"
+                                  method="post">
+                                {% csrf_token %}
+                                <button class="social btn twitter" type="submit">
+                                    <i class="fa fa-twitter fa-fw"></i> Disconnect from Twitter
+                                </button>
+                            </form>
+                            {% else %}
+                            <a class="social btn twitter disabled">
+                                <i class="fa fa-twitter fa-fw"></i> Disconnect from Twitter<br>
+                                <i class="fa fa-exclamation-circle fa-fw"></i> Can't disconnect, need to set password first
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if google_login %}
+                    <div class="col">
+                        <div>
+                            {% if can_disconnect %}
+                            <form action="{% url 'social:disconnect' 'google-oauth2' %}?next={{ request.path }}"
+                                  method="post">
+                                {% csrf_token %}
+                                <button class="social btn google" type="submit">
+                                    <i class="fa fa-google-plus fa-fw"></i> Disconnect from Google
+                                </button>
+                            </form>
+                            {% else %}
+                            <a class="social btn google disabled">
+                                <i class="fa fa-google-plus fa-fw"></i> Disconnect from Google<br>
+                                <i class="fa fa-exclamation-circle fa-fw"></i> Can't disconnect, need to set password first
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if not can_disconnect %}
+                    <hr>
+
+                    <div class="col">
+                        <div>
+                            <a class="social btn google" href="{% url 'password' %}">
+                                <i class="fa fa-cog fa-fw"></i> Set Password
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+{% endblock %}'
+

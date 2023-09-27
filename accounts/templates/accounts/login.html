@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'accounts/css/common.css' %}">
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 column text-center heading">
+                <h2>USER LOGIN</h2>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-md-4 offset-md-2 column px-6">
+            <form enctype="multipart/form-data" method="post">
+                {% load crispy_forms_tags %}
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button class="submit-btn btn btn-outline-success" type="submit">Submit</button>
+            </form>
+
+        </div>
+        <div class="col-md-4 column px-6">
+            <div class="wrapper">
+                <div>
+                    <a class="social btn bg-info register-buttons" href="{% url 'register-restaurant' %}">
+                        <i class="fa fa-sign-in fa-fw"></i> Register for Restaurant
+                    </a>
+                </div>
+                <div>
+                        <a class="social btn bg-info register-buttons" href="{% url 'register-delivery-agent' %}">
+                        <i class="fa fa-sign-in fa-fw"></i> Register for Delivery Agent
+                    </a>
+                </div>
+
+                <hr>
+
+                <div>
+                    <a class="social btn fb" href="{% url 'social:begin' 'facebook' %}">
+                        <i class="fa fa-facebook fa-fw"></i> Login with Facebook
+                    </a>
+                </div>
+                <div>
+                    <a class="social btn github" href="{% url 'social:begin' 'github' %}">
+                        <i class="fa fa-github fa-fw"></i> Login with GitHub
+                    </a>
+                </div>
+                <div>
+                    <a class="social btn twitter" href="{% url 'social:begin' 'twitter' %}">
+                        <i class="fa fa-twitter fa-fw"></i> Login with Twitter
+                    </a>
+                </div>
+                <div>
+                    <a class="social btn google" href="{% url 'social:begin' 'google-oauth2' %}">
+                        <i class="fa fa-google fa-fw"></i> Login with Google
+                    </a>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="auth-feature-wrapper">
+                <div>
+                    <a class="auth-feature btn" href="{% url 'register' %}" >
+                        Register
+                    </a>
+                </div>
+                <div>
+                    <a class="auth-feature btn" href="{% url 'forgot-password' %}" >
+                        Forgot Password
+                    </a>
+                </div>
+                <div>
+                    <a class="auth-feature btn" href="{% url 'resend-activation-code-api' %}" >
+                        Resend Activation Code
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    if (window.location.hash && window.location.hash === '#_=_') {
+        window.location.hash = '';
+    }
+</script>
+{% endblock %}

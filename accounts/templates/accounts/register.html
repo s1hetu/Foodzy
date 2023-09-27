@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+
+{% block css %}
+    {% load static %}
+    <!-- Custom styles -->
+    <style>
+        #map {
+            width: 100%;
+            height: 300px;
+        }
+    </style>
+    <!-- OpenLayers CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.1.0/ol.css">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'accounts/css/common.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 column text-center heading">
+                <h2>USER REGISTRATION</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 column px-md-4 px-0">
+                <form enctype="multipart/form-data" method="post">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="side-box col-lg-6">
+                                {% load crispy_forms_tags %}
+                                {% csrf_token %}
+                                {{ user_form|crispy }}
+                            </div>
+
+                            <div class="side-box col-lg-6">
+                                {% load crispy_forms_tags %}
+                                {% csrf_token %}
+                                {{ address_form|crispy }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            SELECT YOU CURRENT LOCATION ON MAP
+                        </div>
+                        <div class="col-md-12" style="min-height: 300px">
+                            <div id="map" style="min-height: 300px"></div>
+                        </div>
+                        <p class="invalid-feedback text-danger">
+                        <div class="visually-hidden" style="display: none">
+                            {{ address_form.lat.errors }}
+                        </div>
+                        {% for map_error in address_form.lat.errors %}
+                            <strong class="text-danger">{{ map_error }}</strong>
+                        {% endfor %}
+                        </p>
+                    </div>
+                    <button class="submit-btn btn btn-outline-success mt-4" type="submit">Submit</button>
+                </form>
+            </div>
+
+            <div class="col-lg-4 column px-6">
+                <div class="wrapper">
+                    <div>
+                        <a class="social btn bg-info register-buttons" href="{% url 'register-restaurant' %}">
+                            <i class="fa fa-sign-in fa-fw"></i> Register for Restaurant
+                        </a>
+                    </div>
+                    <div>
+                        <a class="social btn bg-info register-buttons" href="{% url 'register-delivery-agent' %}">
+                            <i class="fa fa-sign-in fa-fw"></i> Register for Delivery Agent
+                        </a>
+                    </div>
+
+                    <hr>
+
+                    <div>
+                        <a class="social btn fb" href="{% url 'social:begin' 'facebook' %}">
+                            <i class="fa fa-facebook fa-fw"></i> Login with Facebook
+                        </a>
+                    </div>
+                    <div>
+                        <a class="social btn github" href="{% url 'social:begin' 'github' %}">
+                            <i class="fa fa-github fa-fw"></i> Login with GitHub
+                        </a>
+                    </div>
+                    <div>
+                        <a class="social btn twitter" href="{% url 'social:begin' 'twitter' %}">
+                            <i class="fa fa-twitter fa-fw"></i> Login with Twitter
+                        </a>
+                    </div>
+                    <div>
+                        <a class="social btn google" href="{% url 'social:begin' 'google-oauth2' %}">
+                            <i class="fa fa-google fa-fw"></i> Login with Google
+                        </a>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="auth-feature-wrapper">
+                    <div>
+                        <a class="auth-feature btn" href="{% url 'login' %}">
+                            Login
+                        </a>
+                    </div>
+                    <div>
+                        <a class="auth-feature btn" href="{% url 'resend-activation-code-api' %}">
+                            Resend Activation Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        if (window.location.hash && window.location.hash === '#_=_') {
+            window.location.hash = '';
+        }
+        let icon_url = "{% static 'customers/marker.png' %}";
+        let current_location_icon = "{% static 'customers/current_location.png' %}";
+    </script>
+    <!-- OpenLayers JS-->
+    <script src="https://cdn.jsdelivr.net/npm/ol@v7.1.0/dist/ol.js"></script>
+    <script src="{% static 'accounts/js/map.js' %}"></script>
+{% endblock %}
