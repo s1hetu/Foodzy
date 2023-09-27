@@ -1,0 +1,9 @@
+
+.restaurant-image-container {
+    border: 1px solid gray;
+}
+
+.restaurant-title {
+    font-weight: bold;
+    size: 20px;
+}

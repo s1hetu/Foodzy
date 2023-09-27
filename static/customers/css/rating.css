@@ -1,0 +1,176 @@
+pre {
+  background: lightgrey;
+  height: 10rem;
+  padding: 1rem;
+  overflow: scroll;
+}
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+legend::after {
+  content: ":";
+}
+
+/* attempt 1 styles */
+
+.stars-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 20rem;
+}
+
+.star-container {
+  flex: 0 0 0%;
+  display: grid;
+  grid: [stack] 2rem / [stack] 2rem;
+  place-items: center;
+}
+
+.star-container > * {
+  grid-area: stack;
+}
+
+.star-container > label {
+  color: transparent;
+}
+
+.star-container > label::selection {
+  background: transparent;
+}
+
+.star-container > input {
+  appearance: none;
+}
+
+.fake-star {
+  pointer-events: none;
+  fill: lightgrey;
+}
+
+.star-container > input:hover ~ .fake-star {
+  fill: lightgoldenrodyellow;
+}
+
+.star-container > input:focus ~ .fake-star {
+  stroke: lightblue;
+  stroke-width: 1;
+}
+
+.star-container > input:checked ~ .fake-star {
+  fill: orange;
+}
+
+/* Attempt 2 styles */
+
+.stars-wrapper,
+.stars-display {
+  display: grid;
+  grid: 2rem / repeat(5, 1fr);
+}
+
+.stars-wrapper {
+  margin: 0 auto;
+  max-width: 20rem;
+}
+
+.stars-display {
+  grid-row: 1;
+  grid-column: 1 / -1;
+  fill: lightgrey;
+  pointer-events: none;
+  place-items: center;
+}
+
+input,
+label,
+label::selection {
+  appearance: none;
+  color: transparent;
+  background: transparent;
+}
+
+#one-star-rating-2,
+label[for="one-star-rating-2"] {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+#two-star-rating-2,
+label[for="two-star-rating-2"] {
+  grid-row: 1;
+  grid-column: 2;
+}
+
+#three-star-rating-2,
+label[for="three-star-rating-2"] {
+  grid-row: 1;
+  grid-column: 3;
+}
+
+#four-star-rating-2,
+label[for="four-star-rating-2"] {
+  grid-row: 1;
+  grid-column: 4;
+}
+
+#five-star-rating-2,
+label[for="five-star-rating-2"] {
+  grid-row: 1;
+  grid-column: 5;
+}
+
+/* Fill stars up to and including selected star */
+#one-star-rating-2:checked ~ .stars-display svg:nth-child(-n + 1) {
+  fill: orange;
+}
+#two-star-rating-2:checked ~ .stars-display svg:nth-child(-n + 2) {
+  fill: orange;
+}
+#three-star-rating-2:checked ~ .stars-display svg:nth-child(-n + 3) {
+  fill: orange;
+}
+#four-star-rating-2:checked ~ .stars-display svg:nth-child(-n + 4) {
+  fill: orange;
+}
+#five-star-rating-2:checked ~ .stars-display svg:nth-child(-n + 5) {
+  fill: orange;
+}
+
+/* Fill stars that are being hovered (overrides the fill up to selected rating) */
+#one-star-rating-2:hover ~ .stars-display svg:nth-child(-n + 1) {
+  fill: lightgoldenrodyellow;
+}
+#two-star-rating-2:hover ~ .stars-display svg:nth-child(-n + 2) {
+  fill: lightgoldenrodyellow;
+}
+#three-star-rating-2:hover ~ .stars-display svg:nth-child(-n + 3) {
+  fill: lightgoldenrodyellow;
+}
+#four-star-rating-2:hover ~ .stars-display svg:nth-child(-n + 4) {
+  fill: lightgoldenrodyellow;
+}
+#five-star-rating-2:hover ~ .stars-display svg:nth-child(-n + 5) {
+  fill: lightgoldenrodyellow;
+}
+
+/* Fill stars that are being hovered (overrides the fill up to selected rating) */
+#one-star-rating-2:hover:checked ~ .stars-display svg:nth-child(-n + 1) {
+  fill: orange;
+}
+#two-star-rating-2:hover:checked ~ .stars-display svg:nth-child(-n + 2) {
+  fill: orange;
+}
+#three-star-rating-2:hover:checked ~ .stars-display svg:nth-child(-n + 3) {
+  fill: orange;
+}
+#four-star-rating-2:hover:checked ~ .stars-display svg:nth-child(-n + 4) {
+  fill: orange;
+}
+#five-star-rating-2:hover:checked ~ .stars-display svg:nth-child(-n + 5) {
+  fill: orange;
+}

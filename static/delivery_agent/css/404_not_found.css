@@ -1,0 +1,142 @@
+.nf-class{
+  margin:0px;
+  padding:10px;
+  position: fixed;
+  font-family: 'Tomorrow', sans-serif;
+  height:100vh;
+background-image: linear-gradient(to top, #2e1753, #1f1746, #131537, #0d1028, #050819);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+.text{
+  position:center;
+  top:30%;
+  color: rgb(250, 249, 249);
+  text-align:center;
+}
+
+h1 {
+  text-align: center;
+  text-transform: uppercase;
+  color: lightgray;
+  font-family: arial;
+  font-size: 50px;
+  line-height: 60px;
+  letter-spacing: 15px;
+  text-shadow: 0 1px 0 #efefef,
+               0 2px 0 #efefef,
+               0 3px 0 #efefef,
+               0 4px 0 #efefef,
+               0 30px 5px rgba(0, 0, 0, 0.1);
+  animation: swing 3s linear infinite alternate;
+}
+
+@keyframes swing {
+  from {
+    transform: rotate(5deg);
+  }
+  to {
+    transform: rotate(-5deg);
+  }
+}
+.star{
+  position:relative;
+  width:2px;
+  height:2px;
+  background:#fff;
+  right:0;
+  animation:starTwinkle 3s infinite linear;
+}
+.astronaut img{
+  width:170px;
+  position:absolute;
+  top:54%;
+  animation:astronautRotate 3s infinite linear;
+}
+.astronaut {
+  position: absolute;
+  top: 0%;
+  left: 23%;
+  transform: translate(-50%, -50%);
+  width:52%;
+  height: 100%;
+  animation:astronautFly 6s infinite linear;
+}
+@keyframes astronautFly{
+  0%{
+    /*top: 20%;*/
+    /*left: 20%;*/
+    transform:rotate(0deg)
+  }
+  /*15%{*/
+  /*  top: 15%;*/
+  /*  left: 50%;*/
+  /*}*/
+  /*30%{*/
+  /*  top: 20%;*/
+  /*  left: 60%;*/
+  /*}*/
+  /*50%{*/
+  /*  transform:rotate(45deg);*/
+  /*  top:75%;*/
+  /*}*/
+  /*75%{*/
+  /*  top:30%;*/
+  /*  transform:rotate(40deg);*/
+  /*}*/
+  100%{
+    /*left:20%;*/
+    transform:rotate(360deg);
+  }
+}
+@keyframes astronautRotate{
+  0%{
+    /*top: 20%;*/
+    /*left: 20%;*/
+    transform:rotate(360deg)
+  }
+  40%{
+    /*top: 20%;*/
+    /*left: 20%;*/
+    transform:rotate(280deg)
+  }
+  /*15%{*/
+  /*  top: 15%;*/
+  /*  left: 50%;*/
+  /*}*/
+  /*30%{*/
+  /*  top: 20%;*/
+  /*  left: 60%;*/
+  /*}*/
+  /*50%{*/
+  /*  transform:rotate(45deg);*/
+  /*  top:75%;*/
+  /*}*/
+  /*75%{*/
+  /*  top:30%;*/
+  /*  transform:rotate(40deg);*/
+  /*}*/
+  100%{
+    /*left:20%;*/
+    transform:rotate(0deg);
+  }
+}
+@keyframes starTwinkle{
+  0%{
+     background:rgba(255,255,255,0.4);
+  }
+  25%{
+    background:rgba(255,255,255,0.8);
+  }
+  50%{
+   background:rgba(255,255,255,1);
+  }
+  75%{
+    background:rgba(255,255,255,0.8);
+  }
+  100%{
+    background:rgba(255,255,255,0.4);
+  }
+}

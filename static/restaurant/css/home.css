@@ -1,0 +1,125 @@
+
+.MultiCarousel {
+    float: left;
+    overflow: hidden;
+    padding: 15px;
+    width: 100%;
+    position: relative;
+}
+
+.MultiCarousel .MultiCarousel-inner {
+    transition: 1s ease all;
+    float: left;
+}
+
+.MultiCarousel .MultiCarousel-inner .item {
+    float: left;
+}
+
+.MultiCarousel .MultiCarousel-inner .item > div {
+    text-align: center;
+    padding: 10px;
+    margin: 10px;
+    background: #f1f1f1;
+    color: #666;
+}
+
+.MultiCarousel .leftLst, .MultiCarousel .rightLst {
+    position: absolute;
+    border-radius: 50%;
+    top: calc(50% - 20px);
+}
+
+.MultiCarousel .leftLst {
+    left: 0;
+}
+
+.MultiCarousel .rightLst {
+    right: 0;
+}
+
+.MultiCarousel .leftLst.over, .MultiCarousel .rightLst.over {
+    pointer-events: none;
+    background: #ccc;
+}
+
+img {
+    float: left;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+
+.navbar-nav > li > .dropdown-menu {
+    background-color: #FFFFFF;
+}
+
+.left-side-bar {
+    background-color: #e7eaf0;
+    padding: 20px 10px;
+}
+
+.main-content {
+    background-color: #e7eaf0;
+    padding: 20px;
+}
+
+.side-bar-heading {
+    font-size: 30px !important;
+}
+
+@media (max-width: 767px) {
+    .carousel-inner .carousel-item > div {
+        display: none;
+    }
+
+    .carousel-inner .carousel-item > div:first-child {
+        display: block;
+    }
+}
+
+.carousel-inner .carousel-item.active,
+.carousel-inner .carousel-item-next,
+.carousel-inner .carousel-item-prev {
+    display: flex;
+}
+
+/* medium and up screens */
+@media (min-width: 768px) {
+
+    .carousel-inner .carousel-item-end.active,
+    .carousel-inner .carousel-item-next {
+        /*opacity: 1;*/
+        transform: translateX(25%);
+    }
+
+    .carousel-inner .carousel-item-start.active,
+    .carousel-inner .carousel-item-prev {
+        /*opacity: 0;*/
+        transform: translateX(-25%);
+    }
+}
+
+.carousel-inner .carousel-item-end,
+.carousel-inner .carousel-item-start {
+    transform: translateX(0);
+}
+
+.img-fluid {
+    height: 200px;
+    width: 200px;
+    float: none;
+    object-fit: contain;
+}
+
+.card-img {
+    height: 300px;
+}
+.card-img-overlay {
+    position: relative;
+    background-color: #cfcfcf;
+}
+
+
+

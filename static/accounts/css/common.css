@@ -1,0 +1,96 @@
+body {
+    background-color: lightgray;
+}
+
+.heading {
+    margin-top: 60px;
+}
+
+.social {
+    background-color: antiquewhite;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 15px 30px;
+    text-align: left;
+    font-size: 18px;
+    font-weight: 500;
+    opacity: 0.85;
+}
+
+.social:hover {
+    opacity: 1;
+    color: white;
+}
+
+.auth-feature {
+    background-color: #3B5998;
+    margin-top: 5px;
+    padding: 5px 10px;
+    text-align: left;
+    font-size: 15px;
+    font-weight: 500;
+    opacity: 0.85;
+    color: white;
+}
+
+.auth-feature:hover {
+    opacity: 1;
+    color: white;
+}
+
+.auth-feature-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.column {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.form-text {
+    font-size: 0.75em;
+}
+
+label {
+    font-size: 15px;
+}
+
+.submit-btn {
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+.fb {
+    background-color: #3B5998;
+    color: white;
+}
+
+.twitter {
+    background-color: #55ACEE;
+    color: white;
+}
+
+.google {
+    background-color: #dd4b39;
+    color: white;
+}
+
+.github {
+    background-color: #747474;
+    color: white;
+}
+
+.asteriskField {
+    color: red;
+}
+
+.form-title {
+    font-weight: bold;
+    size: 20px;
+    margin: 10px 0;
+}
