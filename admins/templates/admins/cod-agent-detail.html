@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Admin Panel
+{% endblock %}
+
+{% block css %}
+
+    <style>
+        .profile-image, .document-image {
+            max-height: 400px;
+            max-width: 90%;
+            object-fit: contain;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+    </style>
+
+{% endblock %}
+
+
+{% block navbar %}
+    {% include 'admins/navbar.html' %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container my-5">
+        <h2 class="text-center my-5">Delivery Agent Details for COD</h2>
+        <div class="row">
+            <div class="col-md-10 offset-md-1">
+                <div class="main-content">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-5">
+
+        <div class="h-screen flex-grow-1">
+            <main class="py-6 bg-surface-secondary">
+                <div class="container-fluid">
+                    <!-- Card stats -->
+                    <div class="row g-6 mb-6">
+                        <div class="col-xl-6 col-sm-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="col-12 border-bottom">
+                                            <span class="h3 font-semibold d-block mb-2">User Details</span>
+                                        </div>
+                                        <div class="col-12 mt-5 text-center">
+                                            {% if not agent_user.profile_pic %}
+                                                <img alt="profile pic"
+                                                     src="{% static 'accounts/images/default_profile_image.jpg' %}">
+                                            {% else %}
+                                                <img alt="" class="profile-image"
+                                                     src="{{ agent_user.profile_pic.url }}">
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-sm-12 text-center mt-5">
+                                            <table class="table table-bordered">
+                                                <tbody>
+                                                <tr>
+                                                    <th scope="row">Username</th>
+                                                    <td>{{ agent_user.username }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Email</th>
+                                                    <td>{{ agent_user.email }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Mobile number</th>
+                                                    <td>{{ agent_user.mobile_number }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Agent Status</th>
+                                                    <td>
+                                                        {% if agent_user.document.is_verified %}
+                                                            <span class="badge bg-success">Verified</span>
+                                                        {% else %}
+                                                            <span class="badge bg-secondary">Unverified</span>
+                                                        {% endif %}
+
+                                                        {% if agent_user.is_blocked %}
+                                                            <span class="badge bg-danger">Blocked</span>
+                                                        {% endif %}
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Address</th>
+                                                    <td>
+                                                        {% if agent_user.addresses.all %}
+
+                                                            {% for address in agent_user.addresses.all %}
+                                                                <h6 class="font-bold">{{ address.address_title }}</h6>
+                                                                <address>
+                                                                    {{ address.address_line1 }}
+                                                                    {{ address.address_line2 }} <br>
+                                                                    {{ address.street }}
+                                                                    {{ address.landmark }} <br>
+                                                                    {{ address.city }}
+                                                                    {{ address.state }}
+                                                                    {{ address.country }} -
+                                                                    {{ address.pincode }}
+                                                                </address>
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            -
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-sm-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 border-bottom">
+                                            <span class="h3 font-semibold d-block mb-2">Orders Details</span>
+                                        </div>
+                                        <div class="col-sm-6 mt-5">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">Order ID</th>
+                                                    <th scope="col">Total</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                {% for agent_cash in agent_cash_orders %}
+                                                    <tr>
+                                                        <th scope="row">{{ agent_cash.order.id }}</th>
+                                                        <td>{{ agent_cash.order.total }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                                <tr>
+                                                    <th scope="row"></th>
+                                                    <td class="font-bold">{{ total_cash }}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-sm-6 mt-5">
+                                            <form class="inline-block" method="POST"
+                                                  action="{% url 'action-for-cod-delivery-agent' pk=agent_user.id %}">
+                                                {% csrf_token %}
+                                                <input hidden name="agent_action" value="unblock">
+                                                <button class="btn btn-outline-success">
+                                                    Payment Received
+                                                </button>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block js %}
+{% endblock %}
+
+
+

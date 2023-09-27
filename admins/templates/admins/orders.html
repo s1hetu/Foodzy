@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Admin Panel - Order
+{% endblock %}
+
+{% block css %}
+    <link href="{% static 'delivery_agent/css/not_found.css' %}" rel="stylesheet" type="text/css">
+
+    <style>
+        #drivers-table tr th {
+            font-size: 20px;
+        }
+
+        #drivers-table tr td {
+            font-size: 18px;
+        }
+
+    </style>
+
+{% endblock %}
+
+
+{% block navbar %}
+    {% include 'admins/navbar.html' %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid my-5">
+        <div class="row my-5">
+            <div class="col-md-8  offset-md-1">
+                {% if orders %}
+                    <h2 class="text-center">
+                        Orders
+                    </h2>
+                {% endif %}
+            </div>
+            <div class="col-md-3">
+                <form class="d-flex" method="GET">
+                    <input aria-label="Search" class="form-control me-2" name="order"
+                           placeholder="Search by id, name, or email" type="search" id="search-input">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 offset-md-1">
+                <div class="main-content">
+                    {% if orders %}
+
+                        <table class="table table-bordered" id="drivers-table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Order Date</th>
+                                <th scope="col">Restaurant Name</th>
+                                <th scope="col">Order Status</th>
+                                <th scope="col">View Details</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for order in orders %}
+                                <tr>
+                                    <td>{{ order.order_date }}</td>
+                                    <td>{{ order.restaurant.name }}</td>
+                                    <td>{{ order.status }}</td>
+                                    <td>
+                                        <a class="btn btn-primary" href="{% url 'orders-detail' order.id %}">View</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                        {% if page_obj|length > 0 %}
+                            <div class="my-4">
+                                {% if page_obj.has_previous %}
+                                    <a class="btn btn-primary btn-sm page_number_link"
+                                       href="{{ page_obj.previous_page_number }}">
+                                        Previous Page
+                                    </a>
+                                {% else %}
+                                    <button class="btn btn-primary btn-sm disabled">
+                                        Previous Page
+                                    </button>
+                                {% endif %}
+
+                                {% for page_number in page_obj.adjusted_elided_pages %}
+                                    {% if page_number == page_obj.paginator.ELLIPSIS %}
+                                        {{ page_number }}
+                                    {% else %}
+                                        <a class="page_number_link"
+                                           href="{{ page_number }}">
+
+                                            {% if page_number == page_obj.number %}
+                                                <span class="btn btn-info btn-sm">{{ page_number }}</span>
+                                            {% else %}
+                                                <span class="btn btn-secondary btn-sm">{{ page_number }}</span>
+                                            {% endif %}
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                    <a class="btn btn-primary btn-sm page_number_link"
+                                       href="{{ page_obj.next_page_number }}">
+                                        Next Page
+                                    </a>
+                                {% else %}
+                                    <button class="btn btn-primary btn-sm disabled">
+                                        Next Page
+                                    </button>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        {% include 'admins/no-data-found.html' %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-2 offset-md-1">
+                <form class="d-flex" id="filter_form" method="GET">
+                    <input aria-label="Search" class="form-control me-2" hidden id="filter_input_order" name="order">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="text-center">Filter</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <select class="form-select form-select-lg mb-3 "
+                                        aria-label=".form-select-lg" id="order_status_filter" name="order_status">
+                                    <option selected value="">By Status</option>
+                                    {% for status in order_status %}
+                                        <option value="{{ status.0 }}">{{ status.0|title }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <select class="form-select form-select-lg mb-3 "
+                                        aria-label=".form-select-lg" id="restaurant_filter" name="restaurant">
+                                    <option selected value="">By Restaurant</option>
+                                    {% for restaurant in restaurants %}
+                                        <option value="{{ restaurant.id }}">{{ restaurant.name|title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">
+                                <button class="btn btn-outline-success" id="submit_filter" type="submit">Apply Filter
+                                </button>
+                                <p class='text-danger' id="filter_error" style="display: none">Select at least one
+                                    option to
+                                    filter!</p>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block js %}
+    <script>
+        function getParams(url = window.location) {
+            let params = {};
+
+            new URL(url).searchParams.forEach(function (val, key) {
+                if (params[key] !== undefined) {
+                    if (!Array.isArray(params[key])) {
+                        params[key] = [params[key]];
+                    }
+                    params[key].push(val);
+                } else {
+                    params[key] = val;
+                }
+            });
+
+            return params;
+
+        }
+
+        $(function () {
+            let getParameter = getParams();
+
+            $('#filter_input_order').val(getParameter['order']);
+            $('#search-input').val(getParameter['order']);
+
+            if (getParameter['order_status']){
+                $('#order_status_filter').val(getParameter['order_status']);
+            }
+
+            if (getParameter['restaurant']){
+                $('#restaurant_filter').val(getParameter['restaurant']);
+            }
+
+
+
+            let mainQueryParams = new URLSearchParams();
+
+            let order_status = getParameter['order_status']
+            if (order_status) {
+                mainQueryParams.set("order_status", order_status);
+            }
+
+            let restaurant = getParameter['restaurant']
+            if (restaurant) {
+                mainQueryParams.set("restaurant", restaurant);
+            }
+
+            let page = getParameter['page']
+            if (page) {
+                mainQueryParams.set("page", page);
+            }
+
+
+            let order = getParameter['order']
+            if (order) {
+                mainQueryParams.set("order", order);
+            }
+
+            let page_number_links = $('.page_number_link');
+            if (page_number_links.length) {
+                for (let i = 0; i < page_number_links.length; i++) {
+                    let queryParams = mainQueryParams
+                    queryParams.set("page", $(page_number_links[i]).attr('href'));
+                    let next_url = location.protocol + '//' + location.host + location.pathname + "?" + queryParams.toString()
+                    $(page_number_links[i]).attr('href', next_url);
+                }
+            }
+
+
+        })
+
+    </script>
+{% endblock %}
+
+
+

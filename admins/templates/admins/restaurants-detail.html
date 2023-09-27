@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Admin Panel
+{% endblock %}
+
+{% block css %}
+
+    <style>
+        .profile-image, .document-image {
+            max-height: 400px;
+            max-width: 90%;
+            object-fit: contain;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+    </style>
+
+{% endblock %}
+
+
+{% block navbar %}
+    {% include 'admins/navbar.html' %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid my-5">
+
+        <h2 class="text-center my-5">Restaurant Details</h2>
+        <div class="h-screen flex-grow-1">
+            <main class="py-6 bg-surface-secondary">
+                <div class="container-fluid">
+                    <!-- Card stats -->
+                    <div class="row g-6 mb-6">
+                        <div class="col-xl-6 col-sm-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="col-12 border-bottom">
+                                            <span class="h3 font-semibold d-block mb-2">Owner Details</span>
+                                        </div>
+                                        <div class="col-12 mt-5 text-center">
+                                            {% if not restaurant.owner.profile_pic %}
+                                                <img alt="profile pic"
+                                                     src="{% static 'accounts/images/default_profile_image.jpg' %}">
+                                            {% else %}
+                                                <img alt="" class="profile-image"
+                                                     src="{{ restaurant.owner.profile_pic.url }}">
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-sm-12 text-center mt-5">
+                                            <table class="table table-bordered">
+                                                <tbody>
+                                                <tr>
+                                                    <th scope="row">Username</th>
+                                                    <td>{{ restaurant.owner.username }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Email</th>
+                                                    <td>{{ restaurant.owner.email }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Mobile number</th>
+                                                    <td>{{ restaurant.owner.mobile_number }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Bank Account Number</th>
+                                                    <td>{{ restaurant.documents.account_no }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Bank IFSC Number</th>
+                                                    <td>{{ restaurant.documents.ifsc_code }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Owner's Address</th>
+                                                    <td>
+                                                        {% if restaurant.owner.addresses.all %}
+
+                                                            {% for address in restaurant.owner.addresses.all %}
+                                                                <h6 class="font-bold">{{ address.address_title }}</h6>
+                                                                <address>
+                                                                    {{ address.address_line1 }}
+                                                                    {{ address.address_line2 }} <br>
+                                                                    {{ address.street }}
+                                                                    {{ address.landmark }} <br>
+                                                                    {{ address.city }}
+                                                                    {{ address.state }}
+                                                                    {{ address.country }} -
+                                                                    {{ address.pincode }}
+                                                                </address>
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            -
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Restaurant Address</th>
+                                                    <td>
+                                                        <h6 class="font-bold">{{ address.address_title }}</h6>
+                                                        <address>
+                                                            {{ restaurant.address.address_line1 }}
+                                                            {{ restaurant.address.address_line2 }} <br>
+                                                            {{ restaurant.address.street }}
+                                                            {{ restaurant.address.landmark }} <br>
+                                                            {{ restaurant.address.city }}
+                                                            {{ restaurant.address.state }}
+                                                            {{ restaurant.address.country }} -
+                                                            {{ restaurant.address.pincode }}
+                                                        </address>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Restaurant Status</th>
+                                                    <td>
+                                                        {% if restaurant.application_status == 'approved' %}
+                                                            <span class="badge bg-success">Verified</span>
+                                                        {% elif restaurant.application_status == 'pending' %}
+                                                            <span class="badge bg-secondary">Unverified</span>
+                                                        {% elif restaurant.application_status == 'rejected' %}
+                                                            <span class="badge bg-danger">Rejected</span>
+                                                        {% endif %}
+
+                                                        {% if restaurant.is_blocked %}
+                                                            <span class="badge bg-danger">Blocked</span>
+                                                        {% endif %}
+
+                                                        {% if restaurant.is_accepting_orders %}
+                                                            <span class="badge bg-info">Accepting Order</span>
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="col-sm-12 mt-5 text-center">
+                                                {% if restaurant.is_blocked %}
+
+                                                    <form class="inline-block" method="POST"
+                                                          action="{% url 'action-for-restaurant' pk=restaurant.id %}">
+                                                        {% csrf_token %}
+                                                        <input hidden name="restaurant_action" value="unblock">
+                                                        <button class="btn btn-outline-success">
+                                                            Unblock Restaurant
+                                                        </button>
+                                                    </form>
+
+                                                {% else %}
+                                                    <form class="inline-block" method="POST"
+                                                          action="{% url 'action-for-restaurant' pk=restaurant.id %}">
+                                                        {% csrf_token %}
+                                                        <input hidden name="restaurant_action" value="block">
+                                                        <button class="btn btn-outline-danger">
+                                                            Block Restaurant
+                                                        </button>
+                                                    </form>
+
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-sm-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 border-bottom">
+                                            <span class="h3 font-semibold d-block mb-2">Document Details</span>
+                                        </div>
+                                        <div class="col-sm-6 mt-5">
+                                            <span class="h3 font-semibold mb-0">GST Certificate</span>
+                                        </div>
+                                        <div class="col-12 mt-5 text-center">
+                                            <img alt="" class="document-image"
+                                                 src="{{ restaurant.documents.gst_certificate.url }}">
+                                        </div>
+                                        <hr class="mt-5">
+                                        <div class="col-sm-6 mt-5">
+                                            <span class="h3 font-semibold mb-0">Pan card number</span>
+                                        </div>
+                                        <div class="col-12 mt-5 text-center">
+                                            <img alt="" class="document-image"
+                                                 src="{{ restaurant.documents.pan_card.url }}">
+                                        </div>
+                                        <hr class="mt-5">
+                                        <div class="col-sm-6 mt-5">
+                                            <span class="h3 font-semibold mb-0">FSSAI Certificate</span>
+                                        </div>
+                                        <div class="col-12 mt-5 text-center">
+                                            <img alt="" class="document-image"
+                                                 src="{{ restaurant.documents.fssai_certificate.url }}">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block js %}
+{% endblock %}
+
+
+

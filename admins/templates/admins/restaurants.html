@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Admin Panel - Restaurants
+{% endblock %}
+
+{% block css %}
+    <link href="{% static 'delivery_agent/css/not_found.css' %}" rel="stylesheet" type="text/css">
+
+    <style>
+        #restaurant-table tr th {
+            font-size: 20px;
+        }
+
+        #restaurant-table tr td {
+            font-size: 18px;
+        }
+
+    </style>
+
+{% endblock %}
+
+
+{% block navbar %}
+    {% include 'admins/navbar.html' %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid my-5">
+        <div class="row my-5">
+            <div class="col-md-8  offset-md-1">
+                {% if restaurants %}
+                    <h2 class="text-center">
+                        Restaurants
+                    </h2>
+                {% endif %}
+            </div>
+            <div class="col-md-3">
+                <form class="d-flex" method="GET">
+                    <input aria-label="Search" class="form-control me-2" name="restaurant_search"
+                           placeholder="Search by restaurant id, name, or owner's name" type="search" id="search-input">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 offset-md-1">
+                <div class="main-content">
+                    {% if restaurants %}
+                        <table id="restaurant-table" class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Restaurant Name</th>
+                                <th scope="col">Owner Name</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for restaurant in restaurants %}
+                                <tr>
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>{{ restaurant.name }}</td>
+                                    <td>{{ restaurant.owner.username }}</td>
+                                    <td>
+                                        <a href="{% url 'restaurant-detail' restaurant.id %}" class="btn btn-primary">View</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {% if page_obj|length > 0 %}
+                            <div class="my-4">
+                                {% if page_obj.has_previous %}
+                                    <a class="btn btn-primary btn-sm page_number_link"
+                                       href="{{ page_obj.previous_page_number }}">
+                                        Previous Page
+                                    </a>
+                                {% else %}
+                                    <button class="btn btn-primary btn-sm disabled">
+                                        Previous Page
+                                    </button>
+                                {% endif %}
+
+                                {% for page_number in page_obj.adjusted_elided_pages %}
+                                    {% if page_number == page_obj.paginator.ELLIPSIS %}
+                                        {{ page_number }}
+                                    {% else %}
+                                        <a class="page_number_link"
+                                           href="{{ page_number }}">
+
+                                            {% if page_number == page_obj.number %}
+                                                <span class="btn btn-info btn-sm">{{ page_number }}</span>
+                                            {% else %}
+                                                <span class="btn btn-secondary btn-sm">{{ page_number }}</span>
+                                            {% endif %}
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if page_obj.has_next %}
+                                    <a class="btn btn-primary btn-sm page_number_link"
+                                       href="{{ page_obj.next_page_number }}">
+                                        Next Page
+                                    </a>
+                                {% else %}
+                                    <button class="btn btn-primary btn-sm disabled">
+                                        Next Page
+                                    </button>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                    {% else %}
+                        {% include 'admins/no-data-found.html' %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-1 offset-md-1">
+                <form class="d-flex" id="filter_form" method="GET">
+                    <input aria-label="Search" class="form-control me-2" hidden id="filter_input_restaurant_search" name="restaurant_search">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="text-center">Filter</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <div aria-label="Basic checkbox toggle button group" class="btn-group-vertical"
+                                     id="restaurant_status"
+                                     role="group">
+                                    <input autocomplete="off" class="btn-check" id="restaurant_status_verified"
+                                           name="restaurant_status[]"
+                                           type="checkbox" value="verified">
+                                    <label class="btn btn-outline-primary" for="restaurant_status_verified">Verified
+                                        Restaurants</label>
+
+                                    <input autocomplete="off" class="btn-check" id="restaurant_status_unverified"
+                                           name="restaurant_status[]"
+                                           type="checkbox" value="unverified">
+                                    <label class="btn btn-outline-primary" for="restaurant_status_unverified">Unverified
+                                        Restaurants</label>
+
+                                    <input autocomplete="off" class="btn-check" id="restaurant_status_blocked"
+                                           name="restaurant_status[]"
+                                           type="checkbox" value="blocked">
+                                    <label class="btn btn-outline-primary" for="restaurant_status_blocked">Blocked
+                                        Restaurants</label>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">
+                                <button class="btn btn-outline-success" id="submit_filter" type="submit">Apply Filter
+                                </button>
+                                <p class='text-danger' id="filter_error" style="display: none">Select at least one
+                                    option to
+                                    filter!</p>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+
+{% block js %}
+    <script>
+        function getParams(url = window.location) {
+            let params = {};
+
+            new URL(url).searchParams.forEach(function (val, key) {
+                if (params[key] !== undefined) {
+                    if (!Array.isArray(params[key])) {
+                        params[key] = [params[key]];
+                    }
+                    params[key].push(val);
+                } else {
+                    params[key] = val;
+                }
+            });
+
+            return params;
+
+        }
+
+        $(function () {
+            let getParameter = getParams();
+
+            $('#filter_input_restaurant_search').val(getParameter['restaurant_search']);
+            $('#search-input').val(getParameter['restaurant_search']);
+
+            let user_status_params = getParameter['restaurant_status[]'];
+            if (user_status_params) {
+                if (typeof (user_status_params) !== "string") {
+                    for (let i = 0; i < user_status_params.length; i++) {
+                        if (user_status_params[i] === 'verified') {
+                            $('#restaurant_status_verified').attr('checked', true);
+                        } else if (user_status_params[i] === 'unverified') {
+                            $('#restaurant_status_unverified').attr('checked', true);
+                        } else if (user_status_params[i] === 'blocked') {
+                            $('#restaurant_status_blocked').attr('checked', true);
+                        }
+                    }
+                } else {
+                    if (user_status_params === 'verified') {
+                        $('#restaurant_status_verified').attr('checked', true);
+                    } else if (user_status_params === 'unverified') {
+                        $('#restaurant_status_unverified').attr('checked', true);
+                    } else if (user_status_params === 'blocked') {
+                        $('#restaurant_status_blocked').attr('checked', true);
+                    }
+                }
+            }
+
+            let mainQueryParams = new URLSearchParams();
+
+            let page = getParameter['page']
+            if (page) {
+                mainQueryParams.set("page", page);
+            }
+            let restaurant_search = getParameter['restaurant_search']
+            if (restaurant_search) {
+                mainQueryParams.set("restaurant_search", restaurant_search);
+            }
+
+            if (user_status_params) {
+                if (typeof (user_status_params) !== "string") {
+                    for (let i = 0; i < user_status_params.length; i++) {
+                        mainQueryParams.append("restaurant_status[]", user_status_params[i]);
+                    }
+                } else {
+                    mainQueryParams.set("restaurant_status[]", user_status_params);
+                }
+            }
+
+            let page_number_links = $('.page_number_link');
+            if (page_number_links.length) {
+                for (let i = 0; i < page_number_links.length; i++) {
+                    let queryParams = mainQueryParams
+                    queryParams.set("page", $(page_number_links[i]).attr('href'));
+                    let next_url = location.protocol + '//' + location.host + location.pathname + "?" + queryParams.toString()
+                    $(page_number_links[i]).attr('href', next_url);
+                }
+            }
+
+
+        })
+
+    </script>
+{% endblock %}
+
+
+
+
+

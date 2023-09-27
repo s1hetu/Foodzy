@@ -1,0 +1,263 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Admin Panel
+{% endblock %}
+
+{% block css %}
+    <link href="{% static 'delivery_agent/css/main.css' %}" rel="stylesheet" type="text/css">
+
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
+          rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+    <style>
+        .cards {
+            transition: box-shadow 0.6s, padding-inline 0.6s;
+            border-radius: 10px;
+        }
+
+        .cards:hover {
+            padding-inline: 20px;
+            box-shadow: rgb(99 99 99 / 40%) 0px 2px 8px 0px;
+        }
+    </style>
+
+{% endblock %}
+
+
+{% block navbar %}
+    {% include 'admins/navbar.html' %}
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+
+        <div class="flex-grow-1 overflow-y-lg-auto">
+            <main class="py-6 bg-surface-secondary">
+                <div class="container">
+                    <!-- Card stats -->
+                    <div class="row g-6 mb-6">
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <span class="h6 font-semibold text-muted text-sm d-block mb-2">Sales</span>
+                                            <span class="h3 font-bold mb-0">&#8377;   {% if total_price %}{{ total_price }}{% else %}0{% endif %}</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
+                                                <i class="bi bi-credit-card"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <span class="h6 font-semibold text-muted text-sm d-block mb-2">Orders</span>
+                                            <span class="h3 font-bold mb-0">{{ total_orders }}</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
+                                                <i class="bi bi-cart3"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <span class="h6 font-semibold text-muted text-sm d-block mb-2">Delivered</span>
+                                            <span class="h3 font-bold mb-0">{{ total_delivered_orders }}</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-info text-white text-lg rounded-circle">
+                                                <i class="bi bi-cart-check"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-sm-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <span class="h6 font-semibold text-muted text-sm d-block mb-2">Customers</span>
+                                            <span class="h3 font-bold mb-0">{{ total_customers }}</span>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-warning text-white text-lg rounded-circle">
+                                                <i class="bi bi-people"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-12">
+
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 border-bottom">
+                                            <span class="h3 font-semibold d-block mb-2">All Orders</span>
+                                        </div>
+                                        <div class="col-md-12 mt-5 py-3 cardscol-md-6 mt-5 py-3 cards">
+                                            <a href="{% url 'orders-list' %}">
+                                                <span class="h3 font-bold mb-0 d-block">{{ total_orders }}</span>
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Total Orders</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-12 mt-5 py-3 cardscol-md-6 mt-5 py-3 cards">
+                                            <a href="{% url 'orders-list' %}">
+                                                <span class="h3 font-bold mb-0 d-block">&#8377; {% if total_price %}{{ total_price }}{% else %}0{% endif %}</span>
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Total revenue generated from accepted orders</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 border-bottom">
+                                            <span class="h3 font-semibold d-block mb-2">Customer Details</span>
+                                        </div>
+                                        <div class="col-md-6 mt-5 py-3 cardscol-md-6 mt-5 py-3 cards">
+                                            <a href="{% url 'users-list' %}">
+                                                <span class="h3 font-bold mb-0 d-block">{{ total_customers }}</span>
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Total Users</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 mt-5 py-3 cardscol-md-6 mt-5 py-3 cards">
+                                            <a href="{% url 'users-list' %}?user_status[]=blocked">
+                                                <span class="h3 font-bold mb-0 d-block">{{ deactive_customers }}</span>
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Blocked Users</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 mt-5 py-3 cardscol-md-6 mt-5 py-3 cards">
+                                            <a href="{% url 'users-list' %}?user_status[]=active">
+                                                <span class="h3 font-bold mb-0 d-block">{{ active_customers }}</span>
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Active Users</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 mt-5 py-3 cardscol-md-6 mt-5 py-3 cards">
+                                            <a href="{% url 'users-list' %}?user_status[]=inactive">
+                                                <span class="h3 font-bold mb-0 d-block">{{ unverified_customers }}</span>
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Inactive Users</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 border-bottom">
+                                            <span class="h3 font-semibold d-block mb-2">Restaurant Details</span>
+                                        </div>
+                                        <div class="col-md-6 mt-5 py-3 cards">
+                                            <a href="{% url 'restaurant-list' %}">
+                                                <span class="h3 font-bold mb-0 d-block">{{ total_restaurants }}</span>
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Total Restaurants</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 mt-5 py-3 cards">
+                                            <a href="{% url 'restaurant-list' %}?restaurant_status[]=blocked">
+                                                <span class="h3 font-bold mb-0 d-block">{{ deactive_restaurants }}</span>
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Blocked Restaurants</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 mt-5 py-3 cards">
+                                            <a href="{% url 'restaurant-list' %}?restaurant_status[]=verified">
+                                                <span class="h3 font-bold mb-0 d-block">{{ active_restaurants }}</span>
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Active Restaurants</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 mt-5 py-3 cards">
+                                            <a href="{% url 'restaurant-list-application' %}">
+                                                <span class="h3 font-bold mb-0 d-block">{{ unverified_restaurants }}</span>
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Restaurants Application</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 border-bottom">
+                                            <span class="h3 font-semibold d-block mb-2">Delivery Agent Details</span>
+                                        </div>
+                                        <div class="col-md-6 mt-5 py-3 cards">
+                                            <a href="{% url 'drivers-list' %}">
+                                                <span class="h3 font-bold mb-0 d-block">{{ total_agents }}</span>
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Total Delivery Agents</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 mt-5 py-3 cards">
+                                            <a href="{% url 'drivers-list' %}?user_status[]=blocked">
+                                                <span class="h3 font-bold mb-0 d-block">{{ deactive_agents }}</span>
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Blocked Delivery Agents</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 mt-5 py-3 cards">
+                                            <a href="{% url 'drivers-list' %}?user_status[]=verified">
+                                                <span class="h3 font-bold mb-0 d-block">{{ active_agents }}</span>
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Active Delivery Agents</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 mt-5 py-3 cards">
+                                            <a href="{% url 'drivers-list-application' %}">
+                                                <span class="h3 font-bold mb-0 d-block">{{ unverified_agents }}</span>
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Delivery Agents Applications</span>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 mt-5 py-3 cards">
+                                            <a href="{% url 'cod-agents-list' %}">
+                                                <span class="h3 font-bold mb-0 d-block">{{ agent_with_cash }}</span>
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Delivery Agents with Cash</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+{% endblock %}
+
+
+

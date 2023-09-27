@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Admin Panel
+{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+
+{% block navbar %}
+    {% include 'admins/navbar.html' %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid my-5">
+
+        <h2 class="text-center my-5">Order Details</h2>
+        <div class="h-screen flex-grow-1">
+            <main class="py-6 bg-surface-secondary">
+                <div class="container-fluid">
+                    <!-- Card stats -->
+                    <div class="row g-6 mb-6">
+                        <div class="col-xl-6 col-sm-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+
+                                        <div class="col-12 border-bottom">
+                                            <span class="h3 font-semibold d-block mb-2">Order Details</span>
+                                        </div>
+
+                                        <div class="col-sm-12 text-center mt-5">
+                                            <table class="table table-bordered">
+                                                <tbody>
+                                                <tr>
+                                                    <th scope="row">Order Id</th>
+                                                    <td>{{ order.id }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Order date</th>
+                                                    <td>{{ order.order_date }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Order Status</th>
+                                                    <td>{{ order.status }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Restaurant name</th>
+                                                    <td>{{ order.restaurant.name }}</td>
+                                                </tr>
+                                                {% if order.razorpay_payment_id %}
+                                                    <tr>
+                                                        <th scope="row">Payment Id</th>
+                                                        <td>
+                                                            {{ order.razorpay_payment_id }}
+                                                        </td>
+                                                    </tr>
+                                                {% endif %}
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-sm-6 col-12">
+                            <div class="card shadow border-0">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 border-bottom">
+                                            <span class="h3 font-semibold d-block mb-2">Order Items</span>
+                                        </div>
+                                        <div class="col-sm-12 mt-5">
+
+                                            <table class="table table-bordered text-center">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Quantity</th>
+                                                    <th scope="col">Sub total</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for item in items %}
+                                                <tr>
+                                                    <th scope="row">{{ forloop.counter }}</th>
+                                                    <td>{{ item.item.name }}</td>
+                                                    <td>{{ item.quantity }}</td>
+                                                    <td>{{ item.total }}</td>
+                                                </tr>
+                                               {% endfor %}
+
+                                                <tr class="px-5">
+                                                    <th scope="row" class="text-end"  colspan="4">Total : {{ order.total }}</th>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block js %}
+{% endblock %}
+
+
+
