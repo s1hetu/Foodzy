@@ -1,0 +1,41 @@
+{% if page_obj|length > 0 %}
+    <div class="my-4">
+        {% if page_obj.has_previous %}
+            <a class="btn btn-primary btn-sm page_number_link"
+               href="{{ page_obj.previous_page_number }}">
+                Previous Page
+            </a>
+        {% else %}
+            <button class="btn btn-primary btn-sm disabled">
+                Previous Page
+            </button>
+        {% endif %}
+
+        {% for page_number in page_obj.adjusted_elided_pages %}
+            {% if page_number == page_obj.paginator.ELLIPSIS %}
+                {{ page_number }}
+            {% else %}
+                <a class="page_number_link"
+                   href="{{ page_number }}">
+
+                    {% if page_number == page_obj.number %}
+                        <span class="btn btn-info btn-sm">{{ page_number }}</span>
+                    {% else %}
+                        <span class="btn btn-secondary btn-sm">{{ page_number }}</span>
+                    {% endif %}
+                </a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-primary btn-sm page_number_link"
+               href="{{ page_obj.next_page_number }}">
+                Next Page
+            </a>
+        {% else %}
+            <button class="btn btn-primary btn-sm disabled">
+                Next Page
+            </button>
+        {% endif %}
+    </div>
+{% endif %}
