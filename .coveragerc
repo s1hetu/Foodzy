@@ -1,0 +1,39 @@
+[run]
+include =
+  *accounts/*
+  *admins/*
+  *carts/*
+  *customers/*
+  *delivery_agent/*
+  *orders/*
+  *restaurant/*
+omit =
+  *apps.py,
+  *migrations/*,
+  *settings*,
+  *tests/*,
+  *wsgi/*,
+  manage.py,
+  scraper/*
+  *asgi.py,
+  *wsgi.py,
+  *test_check.py,
+  *admin.py,
+  *__init__.py,
+  *custom_mixins.py,
+  *conftest.py,
+  *helpers.py,
+  *filters.py,
+  *crawl.py,
+  *paginators.py,
+  *storage_backends.py,
+  *mail.py,
+  *token.py,
+  *constants.py,
+  *permissions.py,
+  *managers.py,
+  *routing.py,
+  *tasks.py,
+dynamic_context = test_function
+
+
