@@ -1,0 +1,114 @@
+[
+  {
+    "model": "accounts.user",
+    "pk": 8,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$3DUi4P1MdyuvpufTvdAsle$86QrpZQpnQQR+LNT1c9RhvAWxB1CApkB2rwixrry+DM=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-12-22T11:42:57.121Z",
+      "username": "agent4",
+      "email": "agent4@test.com",
+      "mobile_number": "+919988888888",
+      "is_admin": false,
+      "is_blocked": false,
+      "profile_pic": "",
+      "groups": [
+        2
+      ],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.address",
+    "pk": 7,
+    "fields": {
+      "address_title": "Delivery Agent Address",
+      "address_line1": "Address1-agent4",
+      "address_line2": "Address2-agent4",
+      "street": "Street-agent4",
+      "landmark": "Landmark-agent4",
+      "pincode": 123456,
+      "state": 1,
+      "city": 1,
+      "lat": null,
+      "long": null
+    }
+  },
+  {
+    "model": "accounts.useraddress",
+    "fields": {
+      "user": 8,
+      "address": 7
+    }
+  },
+  {
+    "model": "delivery_agent.document",
+    "fields": {
+      "agent": 8,
+      "license_number": "HR-0619850034761",
+      "license_document": "delivery_agent_licenses/Screenshot_from_2022-12-14_17-33-39.png",
+      "pancard_number": "BNZAA2318J",
+      "pancard_document": "delivery_agent_pancard/Screenshot_from_2022-12-09_10-25-08.png",
+      "is_verified": true,
+      "application_status": "approved",
+      "account_no": "5555555555555",
+      "ifsc_code": "ABCD0123456",
+      "razorpay_contact_id": "cont_Kurxx566M3V69S",
+      "razorpay_fund_account_id": "fa_KurxxSVJ6mKh5x"
+    }
+  },
+  {
+    "model": "delivery_agent.additionaldetail",
+    "pk": 4,
+    "fields": {
+      "agent": 8,
+      "rating": 3.0,
+      "status": "Available"
+    }
+  },
+  {
+    "model": "delivery_agent.activationtime",
+    "pk": 1,
+    "fields": {
+      "agent": 8,
+      "started_at": "2022-12-22T09:25:35.098Z",
+      "ended_at": "2022-12-22T09:25:35.928Z",
+      "session_duration": "00:00:00.829611"
+    }
+  },
+  {
+    "model": "delivery_agent.activationtime",
+    "pk": 2,
+    "fields": {
+      "agent": 8,
+      "started_at": "2022-12-22T09:25:36.202Z",
+      "ended_at": "2022-12-22T09:42:21.102Z",
+      "session_duration": "00:16:44.899250"
+    }
+  },
+  {
+    "model": "delivery_agent.activationtime",
+    "pk": 3,
+    "fields": {
+      "agent": 8,
+      "started_at": "2022-12-22T09:42:35.441Z",
+      "ended_at": "2022-12-22T09:44:22.899Z",
+      "session_duration": "00:01:47.457642"
+    }
+  },
+  {
+    "model": "delivery_agent.activationtime",
+    "pk": 4,
+    "fields": {
+      "agent": 8,
+      "started_at": "2022-12-22T09:44:25.307Z",
+      "ended_at": null,
+      "session_duration": null
+    }
+  }
+]

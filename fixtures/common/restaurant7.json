@@ -1,0 +1,121 @@
+[
+  {
+    "model": "accounts.user",
+    "pk": 16,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$A8XCwhiUBFcaLABwWz5MmC$9ZRDWKKUUQR8gyYBVM6h1S9wDuJoNfutf0csY3N+IcM=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-12-22T11:41:47.943Z",
+      "username": "res7_Owner",
+      "email": "res7@test.com",
+      "mobile_number": "+919916161616",
+      "is_admin": false,
+      "is_blocked": false,
+      "profile_pic": "",
+      "groups": [
+        3
+      ],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.address",
+    "pk": 15,
+    "fields": {
+      "address_title": "Restaurant Address",
+      "address_line1": "Address1-res7",
+      "address_line2": "Address2-res7",
+      "street": "Street-res7",
+      "landmark": "Landmark-res7",
+      "pincode": 123456,
+      "state": 2,
+      "city": 7,
+      "lat": "23.021981",
+      "long": "72.593775"
+    }
+  },
+  {
+    "model": "restaurant.restaurant",
+    "pk": 7,
+    "fields": {
+      "owner": 16,
+      "name": "res7 Name",
+      "address": 15,
+      "is_verified": true,
+      "is_blocked": false,
+      "application_status": "approved",
+      "is_accepting_orders": true,
+      "ratings": 0.0,
+      "image": "restaurant_images/Screenshot_from_2022-12-21_14-07-56.png"
+    }
+  },
+  {
+    "model": "restaurant.documents",
+    "fields": {
+      "restaurant": 7,
+      "pan_card": "pan_cards/Screenshot_from_2022-12-15_11-43-54_3C6tW3O.png",
+      "gst_certificate": "gst_certificates/Screenshot_from_2022-12-09_10-17-03.png",
+      "fssai_certificate": "fssai_certificates/Screenshot_from_2022-12-12_12-52-50_Y06WKTg.png",
+      "account_no": "5555555555555",
+      "ifsc_code": "ABCD0123456",
+      "razorpay_contact_id": "cont_Ku8XFtFW4TzfOz",
+      "razorpay_fund_account_id": "fa_Ku8XGIEcWjkJAt"
+    }
+  },
+  {
+    "model": "restaurant.items",
+    "pk": 4,
+    "fields": {
+      "category": 1,
+      "name": "RiceName",
+      "available_quantity": 30,
+      "quantity": 1,
+      "unit": "plate",
+      "price": "50.00",
+      "description": "This is rice.",
+      "restaurant": 7,
+      "image": "item_images/Screenshot_from_2022-12-12_12-52-50_3RXZ4YQ.png",
+      "number_of_purchases": 0,
+      "discount": "10.00"
+    }
+  },
+  {
+    "model": "restaurant.items",
+    "pk": 5,
+    "fields": {
+      "category": 3,
+      "name": "PastaName",
+      "available_quantity": 23,
+      "quantity": 500,
+      "unit": "grams",
+      "price": "100.00",
+      "description": "This is pasta.",
+      "restaurant": 7,
+      "image": "item_images/Screenshot_from_2022-12-15_11-43-54_UEx2Wi3.png",
+      "number_of_purchases": 0,
+      "discount": "0.00"
+    }
+  },
+  {
+    "model": "restaurant.items",
+    "pk": 6,
+    "fields": {
+      "category": 4,
+      "name": "Ice Cream",
+      "available_quantity": 61,
+      "quantity": 1,
+      "unit": "piece",
+      "price": "20.00",
+      "description": "This is ice cream pie",
+      "restaurant": 7,
+      "image": "item_images/Screenshot_from_2022-12-09_10-17-03_Mp7w3it.png",
+      "number_of_purchases": 0,
+      "discount": "25.00"
+    }
+  }
+]

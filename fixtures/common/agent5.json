@@ -1,0 +1,73 @@
+[
+  {
+    "model": "accounts.user",
+    "pk": 9,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$3DUi4P1MdyuvpufTvdAsle$86QrpZQpnQQR+LNT1c9RhvAWxB1CApkB2rwixrry+DM=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-12-22T11:42:57.121Z",
+      "username": "agent5",
+      "email": "agent5@test.com",
+      "mobile_number": "+919999999999",
+      "is_admin": false,
+      "is_blocked": true,
+      "profile_pic": "",
+      "groups": [
+        2
+      ],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.address",
+    "pk": 8,
+    "fields": {
+      "address_title": "Delivery Agent Address",
+      "address_line1": "Address1-agent5",
+      "address_line2": "Address2-agent5",
+      "street": "Street-agent5",
+      "landmark": "Landmark-agent5",
+      "pincode": 123456,
+      "state": 1,
+      "city": 1,
+      "lat": null,
+      "long": null
+    }
+  },
+  {
+    "model": "accounts.useraddress",
+    "fields": {
+      "user": 9,
+      "address": 8
+    }
+  },
+  {
+    "model": "delivery_agent.document",
+    "fields": {
+      "agent": 9,
+      "license_number": "HR-0619850034761",
+      "license_document": "delivery_agent_licenses/Screenshot_from_2022-12-14_17-33-39.png",
+      "pancard_number": "BNZAA2318J",
+      "pancard_document": "delivery_agent_pancard/Screenshot_from_2022-12-09_10-25-08.png",
+      "is_verified": true,
+      "application_status": "approved",
+      "account_no": "5555555555555",
+      "ifsc_code": "ABCD0123456",
+      "razorpay_contact_id": "cont_Kurxx566M3V69S",
+      "razorpay_fund_account_id": "fa_KurxxSVJ6mKh5x"
+    }
+  },
+  {
+    "model": "delivery_agent.additionaldetail",
+    "fields": {
+      "agent": 9,
+      "rating": null,
+      "status": "Not Available"
+    }
+  }
+]

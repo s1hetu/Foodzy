@@ -1,0 +1,217 @@
+[
+  {
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+      "name": "admin",
+      "permissions": []
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 2,
+    "fields": {
+      "name": "delivery_agent",
+      "permissions": [
+        [
+          "add_acceptedorder",
+          "delivery_agent",
+          "acceptedorder"
+        ],
+        [
+          "view_acceptedorder",
+          "delivery_agent",
+          "acceptedorder"
+        ],
+        [
+          "view_activationtime",
+          "delivery_agent",
+          "activationtime"
+        ],
+        [
+          "update_status",
+          "delivery_agent",
+          "additionaldetail"
+        ],
+        [
+          "view_document",
+          "delivery_agent",
+          "document"
+        ],
+        [
+          "change_order",
+          "orders",
+          "order"
+        ],
+        [
+          "view_order",
+          "orders",
+          "order"
+        ]
+      ]
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 3,
+    "fields": {
+      "name": "restaurant_owner",
+      "permissions": [
+        [
+          "change_order",
+          "orders",
+          "order"
+        ],
+        [
+          "view_order",
+          "orders",
+          "order"
+        ],
+        [
+          "view_documents",
+          "restaurant",
+          "documents"
+        ],
+        [
+          "add_items",
+          "restaurant",
+          "items"
+        ],
+        [
+          "change_items",
+          "restaurant",
+          "items"
+        ],
+        [
+          "view_items",
+          "restaurant",
+          "items"
+        ],
+        [
+          "view_ratingsandreviews",
+          "restaurant",
+          "ratingsandreviews"
+        ],
+        [
+          "add_restaurant",
+          "restaurant",
+          "restaurant"
+        ],
+        [
+          "change_is_accepting_orders_on_restaurant",
+          "restaurant",
+          "restaurant"
+        ],
+        [
+          "view_restaurant",
+          "restaurant",
+          "restaurant"
+        ],
+        [
+          "add_restaurantgallery",
+          "restaurant",
+          "restaurantgallery"
+        ],
+        [
+          "change_restaurantgallery",
+          "restaurant",
+          "restaurantgallery"
+        ],
+        [
+          "view_restaurantgallery",
+          "restaurant",
+          "restaurantgallery"
+        ]
+      ]
+    }
+  },
+  {
+    "model": "auth.group",
+    "pk": 4,
+    "fields": {
+      "name": "customer",
+      "permissions": [
+        [
+          "add_cart",
+          "carts",
+          "cart"
+        ],
+        [
+          "view_cart",
+          "carts",
+          "cart"
+        ],
+        [
+          "change_cartitems",
+          "carts",
+          "cartitems"
+        ],
+        [
+          "delete_cartitems",
+          "carts",
+          "cartitems"
+        ],
+        [
+          "view_cartitems",
+          "carts",
+          "cartitems"
+        ],
+        [
+          "change_acceptedorder",
+          "delivery_agent",
+          "acceptedorder"
+        ],
+        [
+          "view_acceptedorder",
+          "delivery_agent",
+          "acceptedorder"
+        ],
+        [
+          "add_order",
+          "orders",
+          "order"
+        ],
+        [
+          "change_order",
+          "orders",
+          "order"
+        ],
+        [
+          "view_order",
+          "orders",
+          "order"
+        ],
+        [
+          "view_orderitems",
+          "orders",
+          "orderitems"
+        ],
+        [
+          "view_items",
+          "restaurant",
+          "items"
+        ],
+        [
+          "add_ratingsandreviews",
+          "restaurant",
+          "ratingsandreviews"
+        ],
+        [
+          "view_ratingsandreviews",
+          "restaurant",
+          "ratingsandreviews"
+        ],
+        [
+          "view_restaurant",
+          "restaurant",
+          "restaurant"
+        ],
+        [
+          "view_restaurantgallery",
+          "restaurant",
+          "restaurantgallery"
+        ]
+      ]
+    }
+  }
+]

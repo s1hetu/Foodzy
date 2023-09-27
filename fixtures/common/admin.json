@@ -1,0 +1,26 @@
+[
+  {
+    "model": "accounts.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$2BS5YKX56Y2VnciWSduyaX$rpcJsVsJD/AmhLZhYKmzBua1fLCLlvjvHVfXSzo92iU=",
+      "last_login": "2022-12-22T12:19:24.425Z",
+      "is_superuser": true,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2022-12-20T06:27:27.468Z",
+      "username": "admin",
+      "email": "admin@admin.com",
+      "mobile_number": "+919090909090",
+      "is_admin": true,
+      "is_blocked": false,
+      "profile_pic": "",
+      "groups": [
+        1
+      ],
+      "user_permissions": []
+    }
+  }
+]

@@ -1,0 +1,127 @@
+[
+  {
+    "model": "accounts.state",
+    "pk": 1,
+    "fields": {
+      "name": "Gujarat"
+    }
+  },
+  {
+    "model": "accounts.state",
+    "pk": 2,
+    "fields": {
+      "name": "Maharashtra"
+    }
+  },
+  {
+    "model": "accounts.state",
+    "pk": 3,
+    "fields": {
+      "name": "Rajasthan"
+    }
+  },
+  {
+    "model": "accounts.city",
+    "pk": 1,
+    "fields": {
+      "state": 1,
+      "name": "Ahmedabad"
+    }
+  },
+  {
+    "model": "accounts.city",
+    "pk": 2,
+    "fields": {
+      "state": 1,
+      "name": "Vadodara"
+    }
+  },
+  {
+    "model": "accounts.city",
+    "pk": 3,
+    "fields": {
+      "state": 1,
+      "name": "Rajkot"
+    }
+  },
+  {
+    "model": "accounts.city",
+    "pk": 4,
+    "fields": {
+      "state": 1,
+      "name": "Gandhinagar"
+    }
+  },
+  {
+    "model": "accounts.city",
+    "pk": 5,
+    "fields": {
+      "state": 1,
+      "name": "Diu"
+    }
+  },
+  {
+    "model": "accounts.city",
+    "pk": 6,
+    "fields": {
+      "state": 1,
+      "name": "Amreli"
+    }
+  },
+  {
+    "model": "accounts.city",
+    "pk": 7,
+    "fields": {
+      "state": 2,
+      "name": "Mumbai"
+    }
+  },
+  {
+    "model": "accounts.city",
+    "pk": 8,
+    "fields": {
+      "state": 2,
+      "name": "Pune"
+    }
+  },
+  {
+    "model": "accounts.city",
+    "pk": 9,
+    "fields": {
+      "state": 2,
+      "name": "Nagpur"
+    }
+  },
+  {
+    "model": "accounts.city",
+    "pk": 10,
+    "fields": {
+      "state": 3,
+      "name": "Jodhopur"
+    }
+  },
+  {
+    "model": "accounts.city",
+    "pk": 11,
+    "fields": {
+      "state": 3,
+      "name": "Jaipur"
+    }
+  },
+  {
+    "model": "accounts.city",
+    "pk": 12,
+    "fields": {
+      "state": 3,
+      "name": "Udaipur"
+    }
+  },
+  {
+    "model": "accounts.city",
+    "pk": 13,
+    "fields": {
+      "state": 3,
+      "name": "Jaisalmer"
+    }
+  }
+]

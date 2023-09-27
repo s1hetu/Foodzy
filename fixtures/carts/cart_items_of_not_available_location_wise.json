@@ -1,0 +1,19 @@
+[
+  {
+    "model": "carts.cart",
+    "pk": 1,
+    "fields": {
+      "user": 2,
+      "total": "200.00"
+    }
+  },
+  {
+    "model": "carts.cartitems",
+    "fields": {
+      "cart": 1,
+      "item": 5,
+      "quantity": 2,
+      "total": "200.00"
+    }
+  }
+]

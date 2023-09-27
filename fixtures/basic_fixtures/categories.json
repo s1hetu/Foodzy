@@ -1,0 +1,44 @@
+[
+  {
+    "model": "restaurant.categories",
+    "pk": 1,
+    "fields": {
+      "name": "Rice"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 2,
+    "fields": {
+      "name": "Breads and Cereals"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 3,
+    "fields": {
+      "name": "Pasta"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 4,
+    "fields": {
+      "name": "Beverages"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 5,
+    "fields": {
+      "name": "Dessert"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 6,
+    "fields": {
+      "name": "Salad"
+    }
+  }
+]

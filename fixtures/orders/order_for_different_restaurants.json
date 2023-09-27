@@ -1,0 +1,85 @@
+[
+  {
+    "model": "orders.order",
+    "pk": 1,
+    "fields": {
+      "user": 2,
+      "total": "130.00",
+      "order_date": "2022-12-22T07:07:58.086Z",
+      "cancelled": false,
+      "status": "waiting",
+      "restaurant": 6,
+      "razorpay_payment_id": null,
+      "razorpay_order_id": null,
+      "mode": "COD",
+      "paid": false,
+      "delivery_charges": "40.00",
+      "user_address": "Address1-customer1,Address2-customer1, Street-customer1, Landmark-customer1, Ahmedabad,123456, Gujarat ",
+      "user_address_lat": "23.022195",
+      "user_address_long": "72.506745",
+      "restaurant_address": "Address1-res6,Address2-res6, Street-res6, Landmark-res6, Ahmedabad,123455, Gujarat ",
+      "restaurant_address_lat": "23.021981",
+      "restaurant_address_long": "72.593775"
+    }
+  },
+  {
+    "model": "orders.order",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "total": "140.00",
+      "order_date": "2022-12-22T07:07:58.271Z",
+      "cancelled": false,
+      "status": "waiting",
+      "restaurant": 7,
+      "razorpay_payment_id": null,
+      "razorpay_order_id": null,
+      "mode": "COD",
+      "paid": false,
+      "delivery_charges": "40.00",
+      "user_address": "Address1-customer1,Address2-customer1, Street-customer1, Landmark-customer1, Ahmedabad,123456, Gujarat ",
+      "user_address_lat": "23.022195",
+      "user_address_long": "72.506745",
+      "restaurant_address": "Address1-res6,Address2-res6, Street-res6, Landmark-res6, Ahmedabad,123456, Gujarat ",
+      "restaurant_address_lat": "23.021981",
+      "restaurant_address_long": "72.593775"
+    }
+  },
+  {
+    "model": "orders.orderitems",
+    "fields": {
+      "order": 1,
+      "item": 1,
+      "quantity": 2,
+      "total": "90.00",
+      "item_price": 100.0,
+      "item_discount": 10.0
+    }
+  },
+  {
+    "model": "orders.orderitems",
+    "pk": 2,
+    "fields": {
+      "order": 2,
+      "item": 5,
+      "quantity": 1,
+      "total": "100.00",
+      "item_price": 100.0,
+      "item_discount": 0.0
+    }
+  },
+  {
+    "model": "orders.orderconfirmotp",
+    "fields": {
+      "otp": "d47ae2",
+      "order": 1
+    }
+  },
+  {
+    "model": "orders.orderconfirmotp",
+    "fields": {
+      "otp": "a29f99",
+      "order": 2
+    }
+  }
+]

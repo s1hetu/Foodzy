@@ -1,0 +1,49 @@
+[
+  {
+    "model": "accounts.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$L5ZoKnCuhg82iNaKwnNMU7$bR1h2eGSLzB9L6rQhJgJt4qSWhw65COFjJy32uJg4Mc=",
+      "last_login": "2022-12-21T10:55:25.046Z",
+      "is_superuser": false,
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2022-12-20T10:43:43.105Z",
+      "username": "customer3",
+      "email": "customer3@test.com",
+      "mobile_number": "+919933333333",
+      "is_admin": false,
+      "is_blocked": true,
+      "profile_pic": "",
+      "groups": [
+        4
+      ],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "accounts.address",
+    "pk": 3,
+    "fields": {
+      "address_title": "Customers Address",
+      "address_line1": "Address1-customer3",
+      "address_line2": "Address2-customer3",
+      "street": "Street-customer3",
+      "landmark": "Landmark-customer3",
+      "pincode": 123456,
+      "state": 1,
+      "city": 1,
+      "lat": "23.022195",
+      "long": "72.506745"
+    }
+  },
+  {
+    "model": "accounts.useraddress",
+    "fields": {
+      "user": 4,
+      "address": 3
+    }
+  }
+]
