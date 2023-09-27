@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block title %} Product Detail {% endblock %}
+
+{% block css %}
+<link href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+<link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet">
+<link href="https://www.w3schools.com/lib/w3-theme-blue-grey.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="{% static 'restaurant/css/menu_items.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block body %}
+
+<section style="background-color: #eee;">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ items.image.url }}" style="width: 100%;height: 100%">
+            </div>
+
+            <div class="col-md-8 col-lg-4 mb-4 mb-lg-0">
+                <div class="card mb-4">
+                    <div class="d-flex justify-content-between p-12">
+                    </div>
+                    <div class="card-body">
+                        <p>Restaurant : {{ items.restaurant }}</p>
+                        <p>Name : {{ items.name }}</p>
+                        <p>category : {{ items.category }}</p>
+                        <p>Original Price : {{ items.price }}</p>
+                        <p>Discounted Price : {{ items.calculate_discount }}</p>
+                        <p>Volume : {{ items.quantity }} {{ items.unit }}</p>
+                        <p>Description : {{ items.description }}</p>
+                        <p>Discount : {{ items.discount }}</p>
+                        <p>Quantity : {{ items.available_quantity }}</p>
+                    </div>
+                </div>
+                <a class="btn btn-outline-success" href="" type="button">Buy Now</a>
+                <button class="btn btn-primary" href="" onclick="add_to_cart({{ items.id }})">Add to cart</button>
+                <button class="btn btn-primary" href="" onclick="remove_from_cart({{ items.id }})">remove from cart</button>
+                <div style="flex: 0.75;">
+                    <div class="quantity">
+                        <span><input id="form1" min="1" name="quantity" type="number"
+                                     class="form-control" readonly value="{{ items.quantity }}"/></span>
+                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp();increase_quantity({{ items.id }})"
+                                type="submit">+
+                        </button>
+                        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown();decrease_quantity({{ items.id }})"
+                                type="submit">-
+                        </button>
+                    </div>
+                </div>
+                <a class="btn btn-outline-danger" href="" type="button">Add to WishList</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="{% static "restaurant/js/cart.js" %}"></script>
+{% endblock %}

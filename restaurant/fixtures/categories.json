@@ -1,0 +1,128 @@
+[
+  {
+    "model": "restaurant.categories",
+    "pk": 1,
+    "fields": {
+      "name": "North Indian"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 2,
+    "fields": {
+      "name": "South Indian"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 3,
+    "fields": {
+      "name": "Gujarati"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 4,
+    "fields": {
+      "name": "Street Food"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 5,
+    "fields": {
+      "name": "Ice Creams"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 6,
+    "fields": {
+      "name": "Waffles"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 7,
+    "fields": {
+      "name": "Candies"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 8,
+    "fields": {
+      "name": "Burger"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 9,
+    "fields": {
+      "name": "Pizza"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 10,
+    "fields": {
+      "name": "Sandwich"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 11,
+    "fields": {
+      "name": "Pasta"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 12,
+    "fields": {
+      "name": "Italian"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 13,
+    "fields": {
+      "name": "Mexican"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 14,
+    "fields": {
+      "name": "French Fries"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 15,
+    "fields": {
+      "name": "Vadapav"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 16,
+    "fields": {
+      "name": "Dabeli"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 17,
+    "fields": {
+      "name": "Frankie"
+    }
+  },
+  {
+    "model": "restaurant.categories",
+    "pk": 18,
+    "fields": {
+      "name": "Chinese"
+    }
+  }
+]

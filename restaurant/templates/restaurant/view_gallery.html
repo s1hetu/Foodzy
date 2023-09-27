@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+
+{% load static %}
+{% block css %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{% static 'accounts/css/common.css' %}">
+{% endblock %}
+
+{% block title %}
+Upload Image
+{% endblock %}
+
+
+{% block body %}
+<h2 style="text-align:center;">Gallery</h2>
+<div class="carousel slide" data-bs-ride="carousel" id="recipeCarousel">
+
+    <div class="carousel-inner" role="listbox">
+        {% for product in gallery_images %}
+        <div class="carousel-item">
+
+
+            {% if product.image %}
+
+            <img alt="{{ product.name }}" class="img-fluid"
+                 src="{{ product.image.url }}" style=" display: block;
+                                                  margin-left: auto;
+                                                  margin-right: auto; width:50%">
+            {% else %}
+            <img alt="{{ product.name }}"
+                 class="img-fluid"
+                 src="{% static 'restaurant/images/item_image.jpeg' %}">
+            {% endif %}
+
+
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+                                        $('.carousel-item:first').addClass("active");
+
+
+    </script>
+
+    <a class="carousel-control-prev w-aut" data-bs-slide="prev"
+       href="#recipeCarousel"
+       role="button" style="background-color: #00000047; width: 5%;">
+        <span aria-hidden="true" class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next w-aut" data-bs-slide="next"
+       href="#recipeCarousel"
+       role="button" style="background-color: #00000047; width: 5%;">
+        <span aria-hidden="true" class="carousel-control-next-icon"></span>
+    </a>
+</div>
+
+
+{% endblock %}
+
+
+

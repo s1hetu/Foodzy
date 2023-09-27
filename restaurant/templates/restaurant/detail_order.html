@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block css %}
+    <link href="{% static 'restaurant/css/order_details.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block title %}
+    Order Details{% endblock %}
+{% block navbar %}
+    {% include 'restaurant/restaurant_navbar.html' %}
+{% endblock %}
+{% block body %}
+
+    <br>
+
+
+    <div class="container-fluid row">
+        <div class="col-lg-12 box-element bg-secondary card">
+            <div class="card col-lg-12 m-2 p-2 ">
+                <div class=" ">
+                    <div style="flex: 1;" id="order_id">Order : {{order.id }}</div>
+                    <div style="flex: 1;">Order date : {{ order.order_date }}</div>
+                    <div style="flex: 1;">Order User : {{ order.user.username }}</div>
+                    <div style="flex: 1;">Order User Contact: {{ order.user.mobile_number }}</div>
+                    <div style="flex: 1;">Order date : {{ order.order_date }}</div>
+                    <div style="flex: 1;">Total amount : {{ order.total }}</div>
+                    {% if order.accepted_order %}
+                        <div style="flex: 1;">Delivery Agent : {{ order.accepted_order.agent.username }}</div>
+                        <div style="flex: 1;">Delivery Agent Contact
+                            : {{ order.accepted_order.agent.mobile_number }}</div>
+                    {% else %}
+                        <div style="flex: 1;">Delivery Agent Contact : Not Assigned Yet</div>
+                    {% endif %}
+                    <div style="flex: 1;">Status : {{ order.status }}</div>
+                    <br>
+                </div>
+            </div>
+            <div class="box-element">
+                <div class="cart-row">
+                    <div style="flex: 1;"><strong>Item</strong></div>
+                    <div style="flex: 1;"><strong>Quantity</strong></div>
+                    <div style="flex: 1;"><strong>Price</strong></div>
+                </div>
+
+                <br>
+                {% for item in details %}
+                    <div class="cart-row">
+                        <div style="flex: 1;">{{ item.item.name }}</div>
+                        <div style="flex: 1;">{{ item.quantity }}</div>
+                        <div style="flex: 1;">{{ item.item.price }}</div>
+
+
+                    </div>
+                {% endfor %}
+                <div class=" m-4 res-orders fa-border">
+                    {% if order.status == 'waiting' %}
+                        Accept<input class="status" type="checkbox" value="accepted">
+                        Reject<input class="status" type="checkbox" value="rejected">
+
+                    {% elif order.status == 'accepted' %}
+                        Accepted
+                        <div class="fa fa-check-square" type="checkbox"></div>
+                        Preparing<input class="status" type="checkbox" value="preparing">
+                        Prepared
+                        <div class="fa fa-square-o" type="checkbox"></div>
+                        Ready toPick
+                        <div class="fa fa-square-o" type="checkbox"></div>
+
+                    {% elif order.status == 'preparing' %}
+                        Accepted
+                        <div class="fa fa-check-square" type="checkbox"></div>
+                        Preparing
+                        <div class="fa fa-check-square" type="checkbox"></div>
+                        Prepared<input class="status" type="checkbox" value="prepared">
+                        Ready toPick
+                        <div class="fa fa-square-o" type="checkbox"></div>
+
+                    {% elif order.status == 'prepared' %}
+                        Accepted
+                        <div class="fa fa-check-square" type="checkbox"></div>
+                        Preparing
+                        <div class="fa fa-check-square" type="checkbox"></div>
+                        Prepared
+                        <div class="fa fa-check-square" type="checkbox"></div>
+                        Ready to Pick<input class="status" type="checkbox" value="ready to pick">
+
+                    {% elif order.status == 'ready to pick' %}
+                        Accepted
+                        <div class="fa fa-check-square" type="checkbox"></div>
+                        Preparing
+                        <div class="fa fa-check-square" type="checkbox"></div>
+                        Prepared
+                        <div class="fa fa-check-square" type="checkbox"></div>
+                        Ready toPick
+                        <div class="fa fa-check-square" type="checkbox"></div>
+
+                    {% elif order.status == 'rejected' %}
+                        Rejected
+                        <div class="fa fa-times-circle " type="checkbox"></div>
+                    {% else %}
+                        <div class="fa fa-check-square text-uppercase " type="checkbox"> {{ order.status }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+    {{ order.id|json_script:"order" }}
+{% endblock %}
+
+{% block js %}
+
+    <script src="{% static 'restaurant/js/detail_order.js' %}"></script>
+{% endblock %}

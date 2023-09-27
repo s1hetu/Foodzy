@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+
+{% load static %}
+{% block css %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{% static 'accounts/css/common.css' %}">
+{% endblock %}
+
+{% block title %}
+Add item
+{% endblock %}
+
+{% block navbar %}
+{% include 'restaurant/restaurant_navbar.html' %}
+{% endblock %}
+
+
+
+{% block body %}
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 column text-center heading">
+                <h2>ADD ITEM TO RESTAURANT - <b>{{ restaurant.name|title }}</b></h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 offset-md-2 column px-md-4 px-0">
+                <form enctype="multipart/form-data" method="post">
+                    <div class="container-fluid">
+                        <div class="row">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                        </div>
+                    </div>
+                    <button class="submit-btn btn btn-outline-success mt-4" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#id_category").select2();
+        });
+    </script>
+{% endblock %}

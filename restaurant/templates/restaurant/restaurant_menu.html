@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{load static %}
+{% block css %}
+
+{% endblock %}
+{% block title %}
+View Menu{% endblock %}
+{% block navbar %}
+{% include 'restaurant/restaurant_navbar.html' %}
+{% endblock %}
+{% block body %}
+
+
+<div class="container">
+
+    <h1 class="text-center text-danger"><b>THE MENU</b></h1>
+
+</div>
+<div class="container">
+    {% for category, items in products.items %}
+    <h3 class="text-center"><b>{{category}}</b></h3>
+    {% for item in items %}
+    <div class="container">
+
+            <h4 style="display: flex;"><a href="{% url 'update-item' item.3 %}" class="me-auto">{{item.0}}</a>
+                <span class="d-flex">Rs : {{item.1}}</span>
+            </h4>
+
+        <p class=""><small>{{item.2}}</small></p>
+        <hr>
+    </div>
+    {% endfor %}
+
+    {% endfor %}
+</div>
+</div>
+{% endblock %}
+

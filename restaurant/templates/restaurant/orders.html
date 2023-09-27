@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}
+    Orders
+{% endblock %}
+{% block navbar %}
+    {% include 'restaurant/restaurant_navbar.html' %}
+{% endblock %}
+{% block body %}
+    <div class="table-responsive" style="margin:40px;">
+        {% if not orders %}
+            {% include 'delivery_agent/not_found.html' %}
+        {% else %}
+            <table class="table table-hover table-nowrap">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Details</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                            {% if order.user.profile_pic %}
+                                <img alt="" class="avatar avatar-sm rounded-circle me-2"
+                                     src="{{ order.user.profile_pic.url }}">
+                            {% else %}
+                                <img alt="" class="avatar avatar-sm rounded-circle me-2"
+                                     src="/media/restaurant_images/snack2_Lpbnu3f.jpeg">
+                            {% endif %}
+                            <a class="text-heading font-semibold" href="#">
+                                {{ order.user }}
+                            </a>
+                        </td>
+                        <td>{{ order.order_date }}</td>
+                        <td>{{ order.total }}</td>
+                        <td>{{ order.status }}</td>
+                        <td></td>
+                        <td><a class="btn btn-sm btn-neutral" href="{% url 'detail-order' order.id %}">View</a></td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+            {% include 'pagination.html' %}
+        {% endif %}
+
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'admins/js/pagination.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,303 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Restaurant Panel
+{% endblock %}
+
+{% block css %}
+    <link href="{% static 'restaurant/css/menu_items.css' %}" rel="stylesheet" type="text/css">
+
+
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
+          rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+
+
+
+
+    <style>
+        @keyframes loading-1 {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate({{ first_half_rating_degrees }}deg);
+                transform: rotate({{ first_half_rating_degrees }}deg);
+            }
+        }
+
+        @keyframes loading-2 {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate({{ second_half_rating_degrees }}deg);
+                transform: rotate({{ second_half_rating_degrees }}deg);
+            }
+        }
+    </style>
+
+{% endblock %}
+
+
+{% block navbar %}
+    {% include 'restaurant/restaurant_navbar.html' %}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="py-6 bg-surface-secondary">
+            <div class="row">
+                <div class="col-md-4 text-center pt-5">
+                    {% if restaurant.is_accepting_orders %}
+                        <input type="checkbox" id="toggle-two"
+                               value=on data-toggle="toggle"
+                               data-on="Open" data-off="Closed" data-onstyle="success"
+                               data-offstyle="secondary"
+                               data-size="small" data-width="150" data-height="50">
+                    {% else %}
+                        <input type="checkbox" id="toggle-two"
+                               value=off data-toggle="toggle"
+                               data-on="Open" data-off="Closed" data-onstyle="success"
+                               data-offstyle="secondary"
+                               data-size="small" data-width="150" data-height="50">
+                    {% endif %}
+
+                    <div class="delivery-alert m-5" id="myStatus">
+                        {% if pending_orders %}
+                            <div class="alert alert-info alert-dismissible fade show">
+                                You have Some orders to Prepare.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card border-0 bg-surface-secondary">
+                        <div class="card-body py-0">
+                            <div class="row">
+                                <div class="progress blue">
+                                    <span class="progress-left">
+                                      <span class="progress-bar"></span>
+                                    </span>
+                                    <span class="progress-right">
+                                        <span class="progress-bar"></span>
+                                    </span>
+                                    <div class="progress-value" style="line-height: 29px; top: 30%;">
+                                        Ratings<br>{{ ratings }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 px-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title my-4">Profile</h4>
+                            <p>Restaurant : {{ restaurant.name }}</p>
+                            <p style="word-wrap: anywhere">Address : {{ restaurant.address.get_str_address}}</p>
+                            <p>Ratings : {{ ratings }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="h-screen flex-grow-1">
+                <main class="pb-6 bg-surface-secondary">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6 col-12 mt-4">
+                                <div class="card shadow border-0">
+                                    <div class="card-body p-8">
+                                        <div class="row">
+                                            <div class="col">
+
+                                                <a class="h6 font-semibold text-muted text-sm d-block mb-2"
+                                                   href="{% url "restaurant-earning" restaurant.id %}">Restaurant's
+                                                    profit</a>
+                                                <span class="h3 font-bold mb-0">&#8377 {{ revenue }}</span>
+
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
+                                                    <i class="bi bi-credit-card"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 col-12 mt-4">
+                                <div class="card shadow border-0">
+                                    <div class="card-body p-8">
+                                        <div class="row">
+                                            <div class="col">
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Clients</span>
+                                                <span class="h3 font-bold mb-0">{{ number_of_customers }}</span>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
+                                                    <i class="bi bi-people"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6 col-12 mt-4">
+                                <div class="card shadow border-0">
+                                    <div class="card-body p-8">
+                                        <div class="row">
+                                            <div class="col">
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Categories Served</span>
+                                                <span class="h3 font-bold mb-0">{{ number_of_categories }}</span>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="icon icon-shape bg-info text-white text-lg rounded-circle">
+                                                    <i class="bi bi-clock-history"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6 col-12 mt-4">
+                                <div class="card shadow border-0">
+                                    <div class="card-body p-8">
+                                        <div class="row">
+                                            <div class="col">
+                                                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Items Served</span>
+                                                <span class="h3 font-bold mb-0">{{ number_of_items }}</span>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="icon icon-shape bg-warning text-white text-lg rounded-circle">
+                                                    <i class="bi bi-minecart-loaded"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <br>
+
+
+                <div class="row">
+                    <div class="col-md-6 col-xl-4">
+                        <div class="card bg-info bg-opacity-25">
+                            <div class="widget-content-wrapper" style="display: flex; padding: 35px;">
+                                <div class="widget-content-left me-auto">
+                                    <div class="widget-heading"><b><a href="{% url 'view-orders' restaurant.id %}">Total
+                                        Orders</a></b></div>
+                                    <div class="widget-subheading">Orders Served</div>
+                                </div>
+                                <div class="widget-content-right d-flex">
+                                    <div class="widget-numbers"><span>{{ number_of_orders }}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-4">
+                        <div class="card mb-3 bg-warning bg-opacity-25">
+                            <div class="widget-content-wrapper" style="display: flex;padding: 35px;">
+                                <div class="widget-content-left me-auto">
+                                    <div class="widget-heading"><b><a
+                                            href="{% url 'restaurant-admin' %}?view_all_restaurants=1">Restaurants</a></b>
+                                    </div>
+                                    <div class="widget-subheading">My Restaurants</div>
+                                </div>
+                                <div class="widget-content-right d-flex">
+                                    <div class="widget-numbers"><span>{{ my_restaurants }}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="card mb-3 bg-success bg-opacity-25">
+                            <div class="widget-content-wrapper" style="display: flex;padding: 35px;">
+                                <div class="widget-content-left me-auto">
+                                    <div class="widget-heading"><b><a
+                                            href="{% url 'view-reviews' restaurant.id %}">Reviews</a></b>
+                                    </div>
+                                    <div class="widget-subheading">All reviews</div>
+                                </div>
+                                <div class="widget-content-right d-flex">
+                                    <div class="widget-numbers"><span>{{ number_of_ratings }}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card shadow border-0 mb-7">
+                        <div class="card-header">
+                            <h5 class="mb-0">Applications</h5>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-nowrap">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">User</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Details</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody id="orders_received">
+                                {% for order in orders %}
+                                    <tr>
+                                        <td>
+                                            {% if order.user.profile_pic %}
+                                                <img alt="{{ order.user }}" src="{{ order.user.profile_pic.url }}"
+                                                     class="avatar avatar-sm rounded-circle me-2">
+                                            {% else %}
+                                                <img alt="{{ order.user }}"
+                                                     src="{% static 'accounts/images/default_profile_image.jpg' %}"
+                                                     class="avatar avatar-sm rounded-circle me-2">
+                                            {% endif %}
+                                            <p class="pt-2">{{ order.user.username }}</p>
+                                        </td>
+                                        <td>{{ order.order_date }}</td>
+                                        <td>{{ order.total }}</td>
+                                        <td>{{ order.status }}</td>
+                                        <td><a href="{% url 'detail-order' order.id %}"
+                                               class="btn btn-sm btn-neutral">View</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{ restaurant.id|json_script:"restaurant" }}
+
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        let pending_orders = "{{ pending_orders }}"
+    </script>
+    <script src="{% static 'restaurant/js/panel.js' %}"></script>
+    <script src="{% static 'restaurant/js/restaurant_accepting_order_status.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{load static %}
+{% block title %}
+View Restaurants{% endblock %}
+{% block navbar %}
+{% include 'restaurant/restaurant_navbar.html' %}
+{% endblock %}
+{% block body %}
+
+
+<section>
+    <div class="container py-2">
+        <h3>Select </h3>
+        <br><br>
+        <div>
+
+            {% for restaurant in restaurants %}
+            <a href="{% url 'restaurant-menu' restaurant.pk %}">{{ restaurant.name }}</a>
+            <br>
+            <br>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
+

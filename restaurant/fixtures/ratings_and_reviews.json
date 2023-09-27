@@ -1,0 +1,22 @@
+[
+  {
+    "model": "restaurant.ratingsandreviews",
+    "pk": 1,
+    "fields": {
+      "ratings": 4,
+      "reviews": "good",
+      "restaurant": 1,
+      "order": 1
+    }
+  },
+  {
+    "model": "restaurant.ratingsandreviews",
+    "pk": 2,
+    "fields": {
+      "ratings": 3,
+      "reviews": "average",
+      "restaurant": 1,
+      "order": 2
+    }
+  }
+]

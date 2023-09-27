@@ -1,0 +1,75 @@
+{% load static %}
+<link href="{% static 'restaurant/css/restaurant_navbar.css' %}" rel="stylesheet" type="text/css">
+
+{% if restaurant_id %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'add-item' restaurant_id %}">Add item</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'restaurant-menu' restaurant_id %}">View Restaurant Menu</a>
+    </li>
+
+    <li class="nav-item">
+            <div class="dropdown">
+                <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton2"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    Gallery
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+
+                        <li>
+                            <a class="dropdown-item" href="{% url 'add-gallery-image' restaurant_id %}" >Upload Image</a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'view_restaurant_gallery' restaurant_id %}">View Gallery</a>
+                        </li>
+                </ul>
+            </div>
+        </li>
+
+
+
+
+
+{% endif %}
+
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'add-restaurant' %}">Add restaurant</a>
+</li>
+
+
+{% if restaurants %}
+    <li class="nav-item">
+        <div class="dropdown">
+            <a class="nav-link dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                {% if restaurant_id %}
+                    {% for restaurant in restaurants %}
+                        {% if restaurant.id == restaurant_id %}
+                            {{ restaurant.name|title }}
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    Select Restaurant
+                {% endif %}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                {% for restaurant in restaurants %}
+                    <li>
+                        <a href="{% url 'owner-admin' restaurant.id %}" class="dropdown-item {% if restaurant.id == restaurant_id %}active{% endif %}">{{ restaurant.name|title }}</a>
+                    </li>
+                {% endfor %}
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="{% url 'restaurant-admin' %}?view_all_restaurants=1">View All Restaurants</a></li>
+            </ul>
+        </div>
+    </li>
+
+{% endif %}
+

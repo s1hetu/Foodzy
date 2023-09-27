@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    <link href="{% static 'restaurant/css/owner_pannel.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block title %}
+    View Restaurants{% endblock %}
+{% block navbar %}
+    {% include 'restaurant/restaurant_navbar.html' %}
+{% endblock %}
+{% block body %}
+
+
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center">Restaurants</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for restaurant in restaurants %}
+                <div class="col-md-6 my-2 px-3">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6 p-0 restaurant-image-container">
+                                <img class="restaurant-image" src="{{ restaurant.image.url }}" alt="{{ restaurant.owner.username }}" style="height:250px; width:100%">
+                            </div>
+                            <div class="col-md-6">
+                                <a href="{% url 'owner-admin' restaurant.id %}">
+
+                                    <p class="restaurant-title">{{ restaurant.name|title }}</p>
+                                    <p class="mt-5"><i class="fa fa-map-marker" style="font-size: 24px; color: black"></i> {{ restaurant.address.city }}, {{ restaurant.address.state }} - {{ restaurant.address.pincode }}</p>
+                                    <span class="restaurant-status">
+                                        {% if restaurant.application_status == 'approved' %}
+                                            <span class="badge bg-success">{{ restaurant.application_status|title }}</span>
+                                            <span>Ratings - {% if restaurant.ratings %} {{ restaurant.ratings }} {% else %} 0 {% endif %}</span>
+                                        {% elif restaurant.application_status == 'rejected' %}
+                                            <span class="badge bg-danger">{{ restaurant.application_status|title }}</span>
+                                        {% elif restaurant.application_status == 'pending' %}
+                                            <span class="badge bg-secondary">{{ restaurant.application_status|title }}</span>
+                                        {% endif %}
+
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
