@@ -1,0 +1,272 @@
+    {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block css %}
+    <link href="{% static 'restaurant/css/home.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block navbar %}
+    {% include 'customers/navbar.html' %}
+    {% include 'customers/search.html' %}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid my-5">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="left-side-bar">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <div class="nav-link side-bar-heading">Categories</div>
+                        </li>
+                        {% if categories %}
+                            {% for category in categories %}
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       href="{% url 'home' %}?searched={{ category }}">{{ category|title }}</a>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <li class="nav-item">
+                                <div class="nav-link">No Categories</div>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-10">
+                <div class="main-content">
+                    {% if not searched %}
+                        <div class="container text-center my-5">
+                            <h2 class="font-weight-light my-2">Trending Products</h2>
+                            <div class="row mx-auto my-auto justify-content-center">
+                                <div class="carousel slide" data-bs-ride="carousel" id="recipeCarousel">
+                                    <div class="carousel-inner" role="listbox">
+                                        {% for product in trending %}
+                                            <div class="carousel-item">
+                                                <div class="col-md-3">
+                                                    <div class="card">
+                                                        <div class="card-img">
+                                                            {% if product.image %}
+                                                                <img alt="{{ product.name }}" class="img-fluid"
+                                                                     src="{{ product.image.url }}">
+                                                            {% else %}
+                                                                <img alt="{{ product.name }}"
+                                                                     class="img-fluid"
+                                                                     src="{% static 'restaurant/images/item_image.jpeg' %}">
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="card-img-overlay">
+                                                            <div class="d-flex justify-content-between">
+                                                                <p class="small">{{ product.restaurant.name }}</p>
+                                                                <p class="small text-danger">
+                                                                    {% if product.price == product.calculate_discount %}
+{#                                                                        <i>₹{{ product.price }}</i>#}
+                                                                    {% else %}
+                                                                        <s>₹{{ product.price }}</s>
+                                                                        <i><b>({{ product.discount }}% Off)</b></i>
+                                                                    {% endif %}
+                                                                </p>
+                                                            </div>
+
+                                                            <div class="d-flex justify-content-between mb-3">
+                                                                <h4><a class="mb-0"
+                                                                       href="{% url 'cart-item' product.id %}">{{ product.name }}</a>
+                                                                </h4>
+                                                                <h5 class="text-dark mb-0">
+                                                                    ₹{{ product.calculate_discount }}</h5>
+                                                            </div>
+                                                            <div class="d-flex justify-content-between mb-2">
+                                                                <p class="text-muted mb-0">Quantity:
+                                                                    <span class="fw-bold">{{ product.quantity }} {{ product.unit }}</span>
+                                                                </p>
+                                                                <div class="d-flex justify-content-between mb-3">
+                                                                    <h6 class="text mb-0">{{ product.volume }} {{ product.volume_unit }}</h6>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                    <script>
+                                        $('.carousel-item:first').addClass("active");
+                                    </script>
+
+                                    <a class="carousel-control-prev w-aut" data-bs-slide="prev"
+                                       href="#recipeCarousel"
+                                       role="button" style="background-color: #00000047; width: 5%;">
+                                        <span aria-hidden="true" class="carousel-control-prev-icon"></span>
+                                    </a>
+                                    <a class="carousel-control-next w-aut" data-bs-slide="next"
+                                       href="#recipeCarousel"
+                                       role="button" style="background-color: #00000047; width: 5%;">
+                                        <span aria-hidden="true" class="carousel-control-next-icon"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            let items = document.querySelectorAll('.carousel .carousel-item')
+
+                            items.forEach((el) => {
+                                const minPerSlide = 4
+                                let next = el.nextElementSibling
+                                for (var i = 1; i < minPerSlide; i++) {
+                                    if (!next) {
+                                        // wrap carousel by using first child
+                                        next = items[0]
+                                    }
+                                    let cloneChild = next.cloneNode(true)
+                                    el.appendChild(cloneChild.children[0])
+                                    next = next.nextElementSibling
+                                }
+                            })
+
+                        </script>
+                    {% endif %}
+
+                    <div class="container my-3">
+                        <div class="row my-5">
+                        <div class="col-md-10">
+                            <h2 class="font-weight-light">
+                                {% if searched %}
+                                    Results for : {{ searched }}
+                                {% else %}
+                                    All Products
+                                {% endif %}
+                            </h2>
+                        </div>
+                        <div class="col-md-2">
+                            {% include 'customers/filter.html' %}
+                        </div>
+                        </div>
+                        <div class="row">
+                            {% for product in products %}
+                                <div class="col-md-12 col-lg-4 mb-4 mb-lg-0">
+                                    <div class="card mb-4">
+                                        <div class="d-flex justify-content-between">
+                                        </div>
+                                        <img alt="{{ product.name }}" class="card-img-top"
+                                             src="{{ product.image.url }}"
+                                             style="object-fit: contain; padding: 10px 20px"/>
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between">
+                                                <p class="small">{{ product.restaurant.name }}</p>
+                                                <p class="small text-danger">
+                                                    {% if product.price == product.calculate_discount %}
+{#                                                        <i>₹{{ product.price }}</i>#}
+                                                    {% else %}
+                                                        <s>₹{{ product.price }}</s>
+                                                        <i><b>({{ product.discount }}% Off)</b></i>
+                                                    {% endif %}
+                                                </p>
+                                            </div>
+
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <h4><a class="mb-0" href="{% url 'cart-item' product.id %}">{{ product.name }}</a>
+                                                </h4>
+                                                <h5 class="text-dark mb-0">₹{{ product.calculate_discount }}</h5>
+
+                                            </div>
+
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <p class="text-muted mb-0" id="product-button-{{ product.id }}">
+
+                                                    {% if not product.in_cart %}
+                                                        <button class="btn btn-primary" href=""
+                                                                onclick="add_to_cart({{ product.id }})">
+                                                            Add to cart
+                                                        </button>
+                                                    {% else %}
+                                                        <button class="btn btn-danger" href=""
+                                                                onclick="remove_from_cart({{ product.id }})">remove
+                                                            from cart
+                                                        </button>
+                                                    {% endif %}
+                                                </p>
+                                                <div class="d-flex justify-content-between mb-3">
+                                                    <p class="text mb-0">Quantity: {{ product.quantity }} {{ product.get_unit_display }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    {% include 'pagination.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block js %}
+        <script src="{% static 'admins/js/pagination.js' %}"></script>
+
+    <script src="{% static 'restaurant/js/home.js' %}"></script>
+    <script src="{% static 'customers/js/cart.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#search_input').on('keyup', function () {
+                if ($(this).val().length == 0) {
+                    $("#submit").attr("disabled", true);
+                } else {
+                    $("#submit").removeAttr("disabled");
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function getParams(url = window.location) {
+            let params = {};
+
+            new URL(url).searchParams.forEach(function (val, key) {
+                if (params[key] !== undefined) {
+                    if (!Array.isArray(params[key])) {
+                        params[key] = [params[key]];
+                    }
+                    params[key].push(val);
+                } else {
+                    params[key] = val;
+                }
+            });
+
+            return params;
+
+        }
+
+        $(function () {
+            let getParameter = getParams();
+
+            $(`#${getParameter['price_filter']}`).attr('checked', true);
+            $('#search_input').val(getParameter['searched']);
+
+            let mainQueryParams = new URLSearchParams();
+
+            let price_filter = getParameter['price_filter']
+            if (price_filter) {
+                mainQueryParams.set("price_filter", price_filter);
+            }
+
+
+
+
+        })
+
+    </script>
+{% endblock %}

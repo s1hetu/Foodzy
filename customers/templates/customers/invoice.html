@@ -1,0 +1,140 @@
+<div class="card">
+    <div class="card-body">
+        <div class="container mb-5 mt-3">
+            <div class="row d-flex align-items-baseline">
+                <div class="col-xl-9">
+                    <p style="color: #7e8d9f;font-size: 20px;">Invoice >> <strong>ID: {{ order.id }}</strong></p>
+                </div>
+                <hr>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-8">
+                        <ul class="list-unstyled">
+                            <li class="text-muted">To: <span style="color:#5d9fc5 ;">{{ order.user.name }}</span></li>
+                            <li class="text-muted"><i class="fas fa-phone"></i> {{ order.user.email }}</li>
+                            <li class="text-muted"><i class="fas fa-phone"></i> {{ order.user.mobile_number }}</li>
+                            <li class="text-muted">{{ order.user.address }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-xl-8">
+                        <ul class="list-unstyled">
+                            <li class="text-muted">From: <span style="color:#5d9fc5 ;">{{ order.restaurant.name }}</span></li>
+                            <li class="text-muted"><i class="fas fa-phone"></i> {{ order.restaurant.owner.email }}</li>
+                            <li class="text-muted"><i class="fas fa-phone"></i> {{ order.restaurant.owner.mobile_number }}</li>
+                            <li class="text-muted">{{ order.restaurant.address }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row my-2 mx-1 justify-content-center">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Description</th>
+                            <th>Qty</th>
+                            <th>Unit Price</th>
+                            <th>Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody style="border: #0d1028; background-color: #2EA62E">
+                        {% for item in order.orderitems_set.all %}
+                        <tr>
+                            <td>{{ item.item.name }}</td>
+                            <td>{{ item.item.description }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.get_discounted_price }}</td>
+                            <td>{{ item.get_items_total }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="row">
+
+                    <div class="col-xl-3">
+                        <p class="text-black float-start"><span class="text-black me-3">Total </span><span
+                                style="font-size: 25px;">Rs. {{ order.total}}</span></p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-xl-10">
+                        <p>Thank you for your purchase</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{#    <div class="ui segment cards">#}
+{#        <div class="ui card">#}
+{#            <div class="content">#}
+{#                <div class="header">Restaurant Details</div>#}
+{#            </div>#}
+{#            <div class="content">#}
+{#                <ul>#}
+{#                    <li><strong> Name: {{ order.restaurant.name }} </strong></li>#}
+{#                    <li><strong> Address: </strong> {{ order.restaurant.address }}</li>#}
+{#                    <li><strong> Phone: </strong> (+61)404123123</li>#}
+{#                    <li><strong> Email: </strong> {{ order.restaurant.user.email }}</li>#}
+{#                    <li><strong> Contact: </strong> {{ order.restaurant.user.username }}</li>#}
+{#                </ul>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="ui card customercard">#}
+{#            <div class="content">#}
+{#                <div class="header">Customer Details</div>#}
+{#            </div>#}
+{#            <div class="content">#}
+{#                <ul>#}
+{#                    <li><strong> Name: {{ order.user.username }} </strong></li>#}
+{#                    <li><strong> Address: </strong> {{ order.user.address }}</li>#}
+{#                    <li><strong> Phone: </strong> (+61)404123123</li>#}
+{#                    <li><strong> Email: </strong> {{ order.user.email }}</li>#}
+{#                    <li><strong> Contact: </strong> {{ order.user.username }}</li>#}
+{#                </ul>#}
+{#            </div>#}
+{#        </div>#}
+{##}
+{#        <div class="ui segment itemscard">#}
+{#            <div class="content">#}
+{#                <table class="table table-bordered">#}
+{#                    <thead>#}
+{#                        <tr  class="text-center">#}
+{#                            <th>Item / Details</th>#}
+{#                            <th>Unit Cost</th>#}
+{#                            <th>Sum Cost</th>#}
+{#                            <th>Discount</th>#}
+{#                            <th>Tax</th>#}
+{#                            <th>Total</th>#}
+{#                        </tr>#}
+{#                    </thead>#}
+{#                    <tbody>#}
+{#                    {% for item in order.items.all %}#}
+{#                        <tr>#}
+{#                            <td>#}
+{#                                {{ item.name }}#}
+{#                                <br>#}
+{#                                <small class="text-muted">{{ item.description }}</small>#}
+{#                            </td>#}
+{#                            <td class="text-right">#}
+{#                                <span class="mono">{{ item.price }}</span>#}
+{#                                <br>#}
+{#                            </td>#}
+{#                            <td class="text-right">#}
+{#                                <span class="mono">{{ item.calculate_discount }}</span>#}
+{#                                <br>#}
+{#                                <small class="text-muted">{{ item.discount }}</small>#}
+{#                            </td>#}
+{#                            <td class="text-right">#}
+{#                                <span class="mono">{{ item.items.total }}</span>#}

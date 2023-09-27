@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    order Details
+{% endblock %}
+
+{% block css %}
+    <link href="{% static 'customers/css/rating.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block navbar %}
+    {% include 'customers/navbar.html' %}
+{% endblock %}
+{% block body %}
+    <div class="container text-dark bg-white mt-5 pb-2 mb-3">
+        <div class="row p-4">
+            <div class="col-md-6">
+                <h2 class="text-dark">Rate {{ entity_type }}</h2>
+            </div>
+        </div>
+        <hr class="border border-dark border-1"/>
+        <!-- SVG sprite for use in the form element -->
+        <svg id="svg-sprite" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" style="display: none;">
+            <symbol id="star-icon">
+                <title>star</title>
+                <path d="M20 7h-7L10 .5 7 7H0l5.46 5.47-1.64 7 6.18-3.7 6.18 3.73-1.63-7z"/>
+            </symbol>
+        </svg>
+        <div class="row">
+            <div class="col-md-4">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="form-box">
+                        <fieldset>
+                            <div class="mb-3">
+                                <label for="rating" class="form-label">Rating</label>
+                                <section>
+                                    <form id="my-form-2" action="#" method="POST">
+                                        <fieldset>
+                                            <div class="stars-wrapper">
+                                                <input id="one-star-rating-2" type="radio" name="rating"
+                                                       value="1">
+                                                <label for="one-star-rating-2">1 Star</label>
+                                                <input id="two-star-rating-2" type="radio" name="rating"
+                                                       value="2">
+                                                <label for="two-star-rating-2">2 Stars</label>
+                                                <input id="three-star-rating-2" type="radio" name="rating"
+                                                       value="3">
+                                                <label for="three-star-rating-2">3 Stars</label>
+                                                <input id="four-star-rating-2" type="radio" name="rating"
+                                                       value="4">
+                                                <label for="four-star-rating-2">4 Stars</label>
+                                                <input id="five-star-rating-2" type="radio" name="rating"
+                                                       value="5">
+                                                <label for="five-star-rating-2">5 Stars</label>
+                                                <div class="stars-display">
+                                                    <svg viewBox="0 0 20 20" width="30" height="30">
+                                                        <use href="#star-icon"></use>
+                                                    </svg>
+                                                    <svg viewBox="0 0 20 20" width="30" height="30">
+                                                        <use href="#star-icon"></use>
+                                                    </svg>
+                                                    <svg viewBox="0 0 20 20" width="30" height="30">
+                                                        <use href="#star-icon"></use>
+                                                    </svg>
+                                                    <svg viewBox="0 0 20 20" width="30" height="30">
+                                                        <use href="#star-icon"></use>
+                                                    </svg>
+                                                    <svg viewBox="0 0 20 20" width="30" height="30">
+                                                        <use href="#star-icon"></use>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </section>
+                            </div>
+                            <div class="mb-3">
+                                <label for="review" class="form-label">Review</label>
+                                <input type="text" class="form-control" id="review" name="review"
+                                       aria-describedby="review">
+                            </div>
+                            <button type="submit" class="btn btn-success mt-2">Submit</button>
+                        </fieldset>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block title %} Product Detail {% endblock %}
+
+{% block css %}
+    {#<link href="{% static 'restaurant/css/menu_items.css' %}" rel="stylesheet" type="text/css">#}
+{% endblock %}
+{% block navbar %}
+    {% include 'customers/navbar.html' %}
+{% endblock %}
+{% block body %}
+
+    <section style="background-color: #eee;">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{{ item.image.url }}" class="img-rounded img-responsive" style="width: 100%">
+                </div>
+
+                <div class="col-md-8 col-lg-8">
+                    <div class="mb-4">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ item.name }}</h4>
+                            <hr/>
+                            <h2><span class="badge bg-primary">&#8377; {{ item.calculate_discount }}</span></h2>
+                            <div class="row py-2">
+                                <div class="col-6 col-sm-5 col-md-3 fw-bold">Restaurant</div>
+                                <div class="col-6 col-sm-7 col-md-8"> {{ item.restaurant.name }}</div>
+                            </div>
+                            <div class="row py-2">
+                                <div class="col-6 col-sm-5 col-md-3 fw-bold">Product</div>
+                                <div class="col-6 col-sm-7 col-md-8"> {{ item.name }}</div>
+                            </div>
+                            <div class="row py-2">
+                                <div class="col-6 col-sm-5 col-md-3 fw-bold">Category</div>
+                                <div class="col-6 col-sm-7 col-md-8"> {{ item.category }}</div>
+                            </div>
+                            <div class="row py-2">
+                                <div class="col-6 col-sm-5 col-md-3 fw-bold">Volume</div>
+                                <div class="col-6 col-sm-7 col-md-8">{{ item.quantity }} {{ item.unit }}</div>
+                            </div>
+                            <div class="row py-2">
+                                <div class="col-6 col-sm-5 col-md-3 fw-bold">Description</div>
+                                <div class="col-6 col-sm-7 col-md-8">{{ item.description }}</div>
+                            </div>
+                            <hr/>
+                            <div id="cart-button">
+                                {% if not cart_item %}
+                                    <button class="btn btn-success btn-lg" href="" onclick="add_to_cart({{ item.id }})">
+                                        Add to cart
+                                    </button>
+                                {% else %}
+                                    <div class="row">
+                                        <div class="col-6 col-sm-5 col-md-3 fw-bold">Total</div>
+                                        <div class="col-6 col-sm-7 col-md-8">&#8377; <span id="total-{{ item.id }}">{{ cart_item.total }}</span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-6 col-sm-5 col-md-3 fw-bold">Quantity</div>
+                                        <div class="col-6 col-sm-7 col-md-8">
+                                            <button class="btn" onclick="decrease_quantity({{ item.id }})">
+                                                <h4 class="m-0 align-middle">-</h4>
+                                            </button>
+                                            <span id="quantity-{{ item.id }}"
+                                                  class="border border-dark p-2 m-2 mx-2 h4 align-middle">{{ cart_item.quantity }}</span>
+                                            <button class="btn" onclick="increase_quantity({{ item.id }})">
+                                                <h4 class="m-0 align-middle">+</h4>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <button class="btn btn-danger btn-lg mt-1" href="" onclick="remove_from_cart({{ item.id }})">
+                                        Remove from cart
+                                    </button>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
+{% block js %}
+{#    <script type="text/javascript">#}
+{#        if (window.location.hash && window.location.hash === '#_=_') {#}
+{#            window.location.hash = '';#}
+{#        }#}
+{#        let is_authenticated = '{{ user.is_authenticated }}';#}
+{#        let login_url = "{% url 'login' %}";#}
+{##}
+{#    </script>#}
+    <script type="text/javascript" src="{% static "customers/js/item_detail_cart.js" %}"></script>
+{% endblock %}

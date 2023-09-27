@@ -1,0 +1,20 @@
+<form method="get" action="{% url 'home' %}">
+<span class="d-flex justify-content-center" role="search">
+        <input aria-label="Search" class="form-control " id="search_input" name="searched"
+               placeholder="Search" type="search">
+        <button class="btn btn-outline-success" disabled id="submit" type="submit">Search</button>
+</span>
+    <div id="get_form"></div>
+</form>
+
+
+<script>
+    $(document).ready(function () {
+        let searched = new URLSearchParams(window.location.search)
+
+        if (searched.get('searched')) {
+            searched = searched.get('searched')
+            $('#filter_search').val(searched);
+        }
+    })
+</script>

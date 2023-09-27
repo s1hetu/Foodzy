@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    My Cart
+{% endblock %}
+
+{% block css %}
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'customers/css/cart.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block navbar %}
+    {% include 'customers/navbar.html' %}
+{% endblock %}
+{% block body %}
+    <!-- products in cart -->
+    <div class="container text-dark bg-white mt-5 pb-2 mb-3">
+        <div class="row p-4">
+            <div class="col-md-6">
+                <h2 class="text-dark">Cart Details</h2>
+            </div>
+            <div class="col-md-6 ">
+                <button type="button" class="btn btn-custom pull-right">Items <span
+                        id="total-item-count">{{ items|length }}</span></button>
+            </div>
+        </div>
+        <hr class="border border-dark border-1"/>
+        <div class="row p-3 text-center text-dark md-hidden">
+            <div class="col-md-2">
+                <h5>Image</h5>
+            </div>
+            <div class="col-md-4 text-start">
+                <h5>Item</h5>
+            </div>
+            <div class="col-md-1">
+                <h5>Price</h5>
+            </div>
+            <div class="col-md-3 p-2 p-md-0">
+                <h5>Quantity</h5>
+            </div>
+            <div class="col-md-1 p-1 p-md-0">
+                <h5>Total</h5>
+            </div>
+            <div class="col-md-1 p-1 p-md-0">
+            </div>
+        </div>
+        <hr>
+
+        {% for item in items %}
+            <div id="item-{{ item.item.id }}" class="row p-3 effects text-center">
+                <div class="col-md-2">
+                    <img src="{{ item.item.image.url }}" class="img-responsive">
+                </div>
+                <div class="col-md-4 p-1 p-md-1 text-start text-md-left">
+                    {#                    <a class="text-decoration-none" href="{% url 'cart-item' item.item.id %}">#}
+                    <h4>{{ item.item.name }}</h4>
+                    <h6 class="fw-normal">{{ item.item.description }}</h6>
+                    </a>
+                </div>
+                <div class="col-md-1">
+                    {% if item.item.price == item.item.calculate_discount %}
+                        <h4 class="m-0 mt-md-2">&#8377; {{ item.item.price }}</h4>
+                    {% else %}
+
+                        <h4 class="m-0 mt-md-2">&#8377; {{ item.item.calculate_discount }}</h4>
+                        <p class="m-0 mt-md-2">&#8377; <s>{{ item.item.price }}</s></p>
+                    {% endif %}
+
+                </div>
+                <div class="col-md-3 p-2 p-md-0">
+                    <button class="btn" onclick="decrease_quantity({{ item.item.id }})">
+                        <h4 class="m-0 align-middle">-</h4>
+                    </button>
+
+                    <span id="quantity-{{ item.item.id }}"
+                          class="border p-2 m-2 mx-2 h4 align-middle">{{ item.quantity }}</span>
+
+                    <button class="btn" onclick="increase_quantity({{ item.item.id }})">
+                        <h4 class="m-0 align-middle">+</h4>
+                    </button>
+                </div>
+
+                <div class="col-md-1 p-1 p-md-0 mt-2">
+                    <h4 id="total-{{ item.item.id }}">&#8377; {{ item.total }}</h4>
+                </div>
+                <div class="col-md-1 p-1 p-md-0">
+                    <button class="btn p-0" onclick="remove_from_cart_cart_html({{ item.item.id }})"><i
+                            class="fa fa-trash-o"></i>
+                    </button>
+                </div>
+
+                {% if not item.item.restaurant.is_accepting_orders or item.item.restaurant.is_blocked %}
+                    <div class="row p-3">
+                        <p style="color: red">This product is not available</p>
+                    </div>
+                {% endif %}
+
+            </div>
+        {% endfor %}
+        <hr>
+        {% if user.is_authenticated %}
+            <div class="row mt-4 mx-5 mx-md-0">
+                <div class="col-6 col-md-2 offset-md-8 fw-bold pb-3 border-bottom">
+                    Total
+                </div>
+                <div class="col-6 col-md-2 pb-3 border-bottom">
+                    &#8377; <span id="cart-total">{{ user.cart_set.all.0.total }}</span>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="row mt-4">
+            <div class="col-12 col-md-3 offset-md-8 fw-bold d-grid">
+                {% if not_available or items.count == 0 %}
+                    <button onclick="location.href = '{% url "place-order" %}';" class="btn btn-success" id="pay_now_button"
+                            disabled>Checkout
+                    </button>
+                {% else %}
+                    <button onclick="location.href = '{% url "place-order" %}';" class="btn btn-success"
+                            id="pay_now_button">Checkout
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block js %}
+
+    <script src="{% static 'restaurant/js/home.js' %}"></script>
+    <script src="{% static 'customers/js/cart.js' %}"></script>
+{% endblock %}
