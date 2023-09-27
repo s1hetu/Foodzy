@@ -166,3 +166,6 @@ dump.rdb
 !**/migrations
 !**/migrations/__init__.py
 
+
+Dockerfile
+docker-compose.yml
