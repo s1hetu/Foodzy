@@ -113,7 +113,7 @@ REJECT_ORDER_WAITING_TIME=time to wait before auto rejecting placed order. defau
 
 ## How to clone repository
 ```console
-git clone repo https://gitlab.com/inexture-python/pythonlearning/food_delivery_app_pyverse.git 
+git clone repo https://github.com/s1hetu/foodzy 
 ```
 
 
@@ -162,10 +162,10 @@ Admin Users
 email: admin@admin.com, password: 123
 
 Customer Users
-email: desaiparth971@gmail.com, password: User@0000
+email: customer@gmail.com, password: User@0000
 
 Delivery Agent Users
-email: ramesh@ramesh.com, password: User@0000
+email: agent1@agent.com, password: User@0000
 email: agent2@agent.com, password: User@0000
 email: agent3@agent.com, password: User@0000
 
